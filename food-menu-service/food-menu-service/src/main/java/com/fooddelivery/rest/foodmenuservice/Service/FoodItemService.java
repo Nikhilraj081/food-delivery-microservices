@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fooddelivery.rest.foodmenuservice.Exception.ResourceNotFoundException;
+import com.fooddelivery.rest.foodmenuservice.Model.FoodItemVariant;
 import com.fooddelivery.rest.foodmenuservice.Model.FoodItems;
 import com.fooddelivery.rest.foodmenuservice.Repository.FoodItemRepository;
 
@@ -34,6 +35,14 @@ public class FoodItemService {
 
     public FoodItems saveItems(FoodItems items)
     {
+        List<FoodItemVariant> variant = items.getVariant();
+        
+        for (FoodItemVariant val : variant) {
+
+            val.setSpecialPrice(val.getPrice() - items.getDiscount());
+        }
+        
+        items.setVariant(variant);
         return foodItemRepository.save(items);
     }
 

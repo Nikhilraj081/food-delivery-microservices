@@ -11,5 +11,6 @@ public class FoodItemVariant {
 
     private double price;
     private String quantity;
+    private double specialPrice;
 
 }

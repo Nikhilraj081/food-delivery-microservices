@@ -23,5 +23,5 @@ public class FoodItems {
     private String category;
     private String about;
     private List<FoodItemVariant> variant;
-    private List<FoodReview> review;
+    private List<FoodReview> review; 
 }

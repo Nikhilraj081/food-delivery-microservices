@@ -11,7 +11,7 @@ public class Config {
     public RestClient restclient()
     {
         return RestClient.builder()
-                 .baseUrl("http://localhost:8081")
+                 .baseUrl("http://localhost:8080/food-service")
                  .build();
     }
 

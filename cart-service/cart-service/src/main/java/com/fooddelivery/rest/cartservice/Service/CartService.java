@@ -64,17 +64,6 @@ public class CartService {
        
         FoodItems foodItems = restClient.get().uri("/items/id/{productId}",productId).retrieve().body(FoodItems.class);
 
-        // item.forEach((val) -> {
-        //     if(val.getName().equals(foodItems.getName()) && val.getQuantity().equals(quantity))
-        //     {
-        //        try {
-        //         throw new ApiException("Item already added in cart");
-        //     } catch (ApiException e) {
-            
-        //     }
-        //     }
-        // });
-
         //set cart items
         cartItem.setCartItemId(UUID.randomUUID().toString());
         cartItem.setFoodItemId(foodItems.getId());
@@ -91,6 +80,7 @@ public class CartService {
             if(val.getQuantity().equals(quantity))
             {
                 cartItem.setPrice(val.getPrice());
+                cartItem.setSpecialPrice(val.getSpecialPrice());
                 cartItem.setQuantity(val.getQuantity());
             }
             
@@ -99,23 +89,8 @@ public class CartService {
         //set cart
         item.add(cartItem);
         cart.setCartitems(item);
-       // cart.setTotalDiscount(cart.getTotalDiscount() + cartItem.getDiscount());
-       // cart.setTotalPrice(cart.getTotalPrice()+cartItem.getPrice());
-
+    
         Cart newCart =cartRepository.save(cart);
-
-        // cartRepository.save(cart);
-
-        // List<CartItem> cartItem2 = cart.getCartitems();
-        // Cart cart1 = new Cart();
-
-       
-
-        // cartItem2.forEach((val) -> {
-        //     Double totalPrice = 0.0;
-        //     totalPrice = totalPrice + val.getPrice();
-        //     cart1.setTotalPrice(0); val.getPrice();
-        // });
 
         return setCartPrice(newCart);
     }
@@ -161,7 +136,7 @@ public class CartService {
 
         for(CartItem item : cartItem )
         {
-            totalPrice += item.getPrice();
+            totalPrice += item.getSpecialPrice();
             totalDiscount += item.getDiscount();
         }
 

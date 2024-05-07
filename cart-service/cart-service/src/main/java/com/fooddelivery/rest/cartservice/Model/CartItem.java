@@ -15,6 +15,7 @@ public class CartItem {
     public String name;
     public double price;
     public double discount;
+    public double specialPrice;
     public String quantity;
 
 }

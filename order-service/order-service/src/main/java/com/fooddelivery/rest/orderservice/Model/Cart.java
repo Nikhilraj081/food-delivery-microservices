@@ -1,0 +1,21 @@
+package com.fooddelivery.rest.orderservice.Model;
+
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Cart {
+
+    public String id;
+    public String userId;
+    public double totalPrice;
+    public double totalDiscount;
+    public List<CartItem> cartitems;
+
+}

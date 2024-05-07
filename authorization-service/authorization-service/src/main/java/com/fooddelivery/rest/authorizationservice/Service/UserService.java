@@ -1,11 +1,14 @@
 package com.fooddelivery.rest.authorizationservice.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fooddelivery.rest.authorizationservice.Model.Address;
 import com.fooddelivery.rest.authorizationservice.Model.User;
 import com.fooddelivery.rest.authorizationservice.Repository.UserRepository;
 
@@ -29,6 +32,20 @@ public class UserService {
 
        Optional<User> user =userRepository.findById(id);
        return  user;
+    }
+
+    public User setAddress(Address address, String userId)
+    {
+        address.setId(UUID.randomUUID().toString());
+        
+        User user = getUserById(userId).get();
+
+        List<Address> newAddress = user.getAddress();
+        newAddress.add(address);
+
+        user.setAddress(newAddress);
+        
+        return userRepository.save(user);
     }
 
 }

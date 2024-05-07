@@ -34,8 +34,7 @@ public class User implements UserDetails  {
     private String mobileNo;
     private String emailId;
     private String password;
-    private Set roles = new HashSet<>();
-    private List Address = new ArrayList<>();
+    private List<Address> address; 
 
 
     @Override
