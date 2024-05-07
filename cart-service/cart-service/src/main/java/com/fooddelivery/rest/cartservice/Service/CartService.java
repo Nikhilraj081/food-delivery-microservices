@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
@@ -53,16 +54,16 @@ public class CartService {
 
     //add item into cart
 
-    public Cart addProductIntoCart(String userId, String productId, String quantity) throws ResourceNotFoundException 
+    public Cart addProductIntoCart(String userId, String productId, String quantity, String token) throws ResourceNotFoundException 
     {
-        
+
         Cart cart = cartRepository.findCartByUserId(userId);
        
         List<CartItem> item = cart.getCartitems();
 
         CartItem cartItem = new CartItem();
        
-        FoodItems foodItems = restClient.get().uri("/items/id/{productId}",productId).retrieve().body(FoodItems.class);
+        FoodItems foodItems = restClient.get().uri("/items/id/{productId}",productId).header("Authorization", token).retrieve().body(FoodItems.class);
 
         //set cart items
         cartItem.setCartItemId(UUID.randomUUID().toString());
@@ -85,6 +86,8 @@ public class CartService {
             }
             
         }
+
+
         
         //set cart
         item.add(cartItem);
@@ -118,6 +121,20 @@ public class CartService {
         return setCartPrice(newCart);
     }
 
+    //Remove all item from cart
+    public Cart removeAllCartItem(String cartId)
+    {
+        Cart cart = cartRepository.findById(cartId).get();
+
+        cart.getCartitems().clear();
+        cart.setTotalPrice(Constant.DEFAULT_PRICE);
+        cart.setTotalDiscount(Constant.DEFAULT_PRICE);
+        cart.setDeliveryFee(Constant.DEFAULT_PRICE);
+        
+        return cartRepository.save(cart);
+
+    }
+
     //set cart price
     public Cart setCartPrice(Cart cart)
     {
@@ -140,10 +157,20 @@ public class CartService {
             totalDiscount += item.getDiscount();
         }
 
+        if(totalPrice < 200)
+        {
+            cart.setDeliveryFee(Constant.DELIVERY_FEE);
+            totalPrice = totalPrice + Constant.DELIVERY_FEE;
+        }
+
         cart.setTotalPrice(totalPrice);
         cart.setTotalDiscount(totalDiscount);
+        if(totalPrice < 200)
+        {
+            cart.setDeliveryFee(Constant.DELIVERY_FEE);
+        }
 
-       return cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 
 

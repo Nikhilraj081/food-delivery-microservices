@@ -16,10 +16,11 @@ import lombok.NoArgsConstructor;
 public class Cart {
 
     @Id
-    public String id;
-    public String userId;
-    public double totalPrice;
-    public double totalDiscount;
-    public List<CartItem> cartitems;
+    private String id;
+    private String userId;
+    private double totalPrice;
+    private double totalDiscount;
+    private List<CartItem> cartitems;
+    private double deliveryFee;
 
 }

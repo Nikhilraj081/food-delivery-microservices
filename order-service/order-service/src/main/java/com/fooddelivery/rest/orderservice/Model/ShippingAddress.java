@@ -15,7 +15,7 @@ public class ShippingAddress {
     private String id;
     private String userName;
     private String address;
-    private String pincode;
+    private String pinCode;
     private String state;
     private String city;
     private String landMark;

@@ -11,7 +11,7 @@ public class Config {
     public RestClient restClient()
     {
         return RestClient.builder()
-                .baseUrl("http://localhost:8080/cart-service")
+                .baseUrl("http://localhost:8080")
                 .build();
     }
 

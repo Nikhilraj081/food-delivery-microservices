@@ -25,7 +25,7 @@ public class Order {
     private double totalPrice;
     private double deliveryFee;
     private double discount;
-    private List<OrderItem> items;
+    private List<CartItem> items;
     private LocalDate date;
     private LocalTime time;
 

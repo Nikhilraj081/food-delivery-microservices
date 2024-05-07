@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fooddelivery.rest.authorizationservice.Exception.ResourceNotFoundException;
 import com.fooddelivery.rest.authorizationservice.Model.Address;
 import com.fooddelivery.rest.authorizationservice.Model.User;
 import com.fooddelivery.rest.authorizationservice.Service.UserService;
@@ -30,11 +31,19 @@ public class UserController {
     }
 
     @PostMapping("/id/{id}/add/address")
-    public ResponseEntity<?>addAddress(@RequestBody Address address,@PathVariable("id") String id)
+    public ResponseEntity<?> addAddress(@RequestBody Address address,@PathVariable("id") String id)
     {
        User user = userService.setAddress(address, id);
 
        return ResponseEntity.created(null).body(user);
+    }
+
+    @GetMapping("/{userId}/address/{addressId}")
+    public ResponseEntity<?> getAddressById(@PathVariable String userId, @PathVariable String addressId) throws ResourceNotFoundException
+    {
+        Address address = userService.getAddressById(userId, addressId);
+
+        return ResponseEntity.ok().body(address);
     }
 
 

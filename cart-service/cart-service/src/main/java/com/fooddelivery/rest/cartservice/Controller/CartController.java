@@ -1,11 +1,13 @@
 package com.fooddelivery.rest.cartservice.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +23,7 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/create/{userId}")
+    @PostMapping("/create/{userId}")
     public ResponseEntity<?> createCart(@PathVariable String userId) throws ApiException
     {
         Cart cart = cartService.createCart(userId);
@@ -38,9 +40,9 @@ public class CartController {
     }
 
     @PostMapping("/add/{userId}/{itemId}/quantity/{quantity}")
-    public ResponseEntity<?> addItemIntoCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable String quantity) throws ResourceNotFoundException
+    public ResponseEntity<?> addItemIntoCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable String quantity, @RequestHeader("Authorization") String token) throws ResourceNotFoundException
     {
-        Cart cart = cartService.addProductIntoCart(userId, itemId, quantity);
+        Cart cart = cartService.addProductIntoCart(userId, itemId, quantity, token);
 
         return ResponseEntity.created(null).body(cart);
     }
@@ -49,6 +51,14 @@ public class CartController {
     public ResponseEntity<?> removeCartItem(@PathVariable String userId, @PathVariable String itemId)
     {
         Cart cart = cartService.deleteCartItem(userId, itemId);
+
+        return ResponseEntity.accepted().body(cart);
+    }
+
+    @DeleteMapping("/{cartId}/delete/allItem")
+    public ResponseEntity<?> removeAllCartItem(@PathVariable String cartId)
+    {
+        Cart cart = cartService.removeAllCartItem(cartId);
 
         return ResponseEntity.accepted().body(cart);
     }

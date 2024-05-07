@@ -17,5 +17,6 @@ public class Cart {
     public double totalPrice;
     public double totalDiscount;
     public List<CartItem> cartitems;
+    public double deliveryFee;
 
 }
