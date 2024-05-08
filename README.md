@@ -48,8 +48,10 @@ Once environment and collections are imported go to auth-service/Login api and g
 
 ![alt text](</ReadmeImage/Screenshot (65).png>)
 
-Once token is generated copy that token and go to environment and change token value with new generated token value
+Once token is generated copy that token and go to environment "Testing" and change token value with new generated token value
 
 ![alt text](</ReadmeImage/Screenshot (66).png>)
 
- Now we are good to run collection.
+ After that select environment (Testing) in postman, Now we are good to run collection.
+
+ ![alt text](</ReadmeImage/Screenshot (67).png>)
