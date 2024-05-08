@@ -28,11 +28,28 @@ And run below command to start each service
 ```bash
   mvn clean spring-boot:run
 ```
-Once  all server is started paste below link into your browser to check status of services, if all service is UP then we are good to test endpoins.
+Once  all server is started paste below link to your browser to check status of services, if all service is UP then we are good to test endpoins.
 ```bash
   http://localhost:8761/
 ```
-![alt text](<Screenshot (64).png>)
+![alt text](/ReadmeImage/<Screenshot (64).png>)
 
 ## Api test
 
+#### Postman collection test:
+To test with postman collection go to Postman/Collection folder and import collection and environment in postman workspace.
+
+```bash
+ collction file location: food-delivery-microservices/Postman/Collection/
+ environment file location: food-delivery-microservices/Postman/Environment/
+
+```
+Once environment and collections are imported go to auth-service/Login api and gererate token 
+
+![alt text](/ReadmeImage/<Screenshot (65).png>)
+
+Once token is generated copy that token and go to environment and change token value with new generated token value
+
+![alt text](/ReadmeImage/<Screenshot (66).png>)
+
+ Now we are good to run collection.
