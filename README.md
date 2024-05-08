@@ -32,7 +32,7 @@ Once  all server is started paste below link to your browser to check status of 
 ```bash
   http://localhost:8761/
 ```
-![alt text](/ReadmeImage/<Screenshot (64).png>)
+![alt text](ReadmeImage/<Screenshot (64).png>)
 
 ## Api test
 
@@ -46,10 +46,10 @@ To test with postman collection go to Postman/Collection folder and import colle
 ```
 Once environment and collections are imported go to auth-service/Login api and gererate token 
 
-![alt text](/ReadmeImage/<Screenshot (65).png>)
+![alt text](ReadmeImage/<Screenshot (65).png>)
 
 Once token is generated copy that token and go to environment and change token value with new generated token value
 
-![alt text](/ReadmeImage/<Screenshot (66).png>)
+![alt text](ReadmeImage/<Screenshot (66).png>)
 
  Now we are good to run collection.
