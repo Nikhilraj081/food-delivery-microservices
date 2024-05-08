@@ -1,9 +1,10 @@
-package com.fooddelivery.rest.ApiGeteway.AuthFilter;
+package com.fooddelivery.rest.ApiGateway.AuthFilter;
 
 import org.springframework.stereotype.Component;
-import com.fooddelivery.rest.ApiGeteway.Configuration.Constants;
-import com.fooddelivery.rest.ApiGeteway.Exception.ApiException;
-import com.fooddelivery.rest.ApiGeteway.JwtSecurity.JwtHelper;
+
+import com.fooddelivery.rest.ApiGateway.Configuration.Constants;
+import com.fooddelivery.rest.ApiGateway.Exception.ApiException;
+import com.fooddelivery.rest.ApiGateway.JwtSecurity.JwtHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             if (routeValidator.isSecured.test(exchange.getRequest())) {
 
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                    throw new ApiException("missing auth token in header");
+                    throw new ApiException("missing auth token in header",false);
                 }
 
                 String requestHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
@@ -47,7 +48,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 }
 
                 if (!jwtHelper.validateToken(token)) {
-                    throw new ApiException("Token is not valid");
+                    throw new ApiException("Token is not valid", false);
                 }
             }
             return chain.filter(exchange);

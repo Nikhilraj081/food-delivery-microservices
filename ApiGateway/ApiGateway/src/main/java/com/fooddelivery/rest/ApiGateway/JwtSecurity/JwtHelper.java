@@ -1,13 +1,14 @@
-package com.fooddelivery.rest.ApiGeteway.JwtSecurity;
+package com.fooddelivery.rest.ApiGateway.JwtSecurity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 
+import com.fooddelivery.rest.ApiGateway.Configuration.Constants;
+
 import java.util.Date;
 import java.util.function.Function;
-import com.fooddelivery.rest.ApiGeteway.Configuration.Constants;
 
 @Component
 public class JwtHelper {

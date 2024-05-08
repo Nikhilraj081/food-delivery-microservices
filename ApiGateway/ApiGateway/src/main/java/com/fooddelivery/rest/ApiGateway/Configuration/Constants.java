@@ -1,4 +1,4 @@
-package com.fooddelivery.rest.ApiGeteway.Configuration;
+package com.fooddelivery.rest.ApiGateway.Configuration;
 
 public class Constants {
     public static final String Auth_HEADER = "Authorization";

@@ -1,4 +1,4 @@
-package com.fooddelivery.rest.ApiGeteway.AuthFilter;
+package com.fooddelivery.rest.ApiGateway.AuthFilter;
 
 import java.util.List;
 import java.util.function.Predicate;

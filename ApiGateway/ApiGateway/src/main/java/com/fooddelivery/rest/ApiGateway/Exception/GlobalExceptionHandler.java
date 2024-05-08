@@ -1,10 +1,11 @@
-package com.fooddelivery.rest.ApiGeteway.Exception;
+package com.fooddelivery.rest.ApiGateway.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.fooddelivery.rest.ApiGeteway.Model.ApiResponse;
+
+import com.fooddelivery.rest.ApiGateway.Model.ApiResponse;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
