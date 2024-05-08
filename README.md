@@ -3,6 +3,14 @@
 
 The Food Delivery Microservices project aims to develop a scalable and efficient system for managing food delivery operations. Leveraging the microservices architecture with Spring Boot and MongoDB, the project ensures modularity, flexibility, and robustness in handling various aspects of the food delivery process.
 
+**Auth-Service:** Handles user authentication, registration, profile management, and authorization.
+
+**Food-Menu-Service:** Users can add items, remove items, adjust the quantity of items, and view the contents of their cart at any time, including the total price.
+
+**Food-Menu-Service:** Manages foodItem, availability, and orders.
+
+**Order-Service:** Facilitates order placement, tracking, and status updates.
+
 ## Requirements
     java 17
     maven 3.8.4
