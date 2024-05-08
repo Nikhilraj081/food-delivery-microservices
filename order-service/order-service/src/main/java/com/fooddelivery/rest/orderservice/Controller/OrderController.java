@@ -19,19 +19,18 @@ import com.fooddelivery.rest.orderservice.Service.OrderService;
 public class OrderController {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @PostMapping("/create/user/{userId}/address/{addressId}")
-    public ResponseEntity<?> createOrder(@PathVariable String userId, @PathVariable String addressId, @RequestHeader("Authorization") String token)
-    {
+    public ResponseEntity<?> createOrder(@PathVariable String userId, @PathVariable String addressId,
+            @RequestHeader("Authorization") String token) {
         Order order = orderService.createOrder(userId, addressId, token);
 
         return ResponseEntity.created(null).body(order);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getOrderByUserId(@PathVariable String userId)
-    {
+    public ResponseEntity<?> getOrderByUserId(@PathVariable String userId) {
         List<Order> order = orderService.getOrderByUserId(userId);
 
         return ResponseEntity.ok().body(order);

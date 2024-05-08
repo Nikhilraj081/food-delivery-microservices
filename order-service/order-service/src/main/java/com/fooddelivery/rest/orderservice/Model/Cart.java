@@ -6,17 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cart {
 
-    public String id;
-    public String userId;
-    public double totalPrice;
-    public double totalDiscount;
-    public List<CartItem> cartitems;
-    public double deliveryFee;
+    private String id;
+    private String userId;
+    private double totalPrice;
+    private double totalDiscount;
+    private List<CartItem> cartitems;
+    private double deliveryFee;
 
 }

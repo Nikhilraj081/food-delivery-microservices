@@ -18,10 +18,10 @@ import com.fooddelivery.rest.authorizationservice.Security.JwtHelper;
 @Service
 public class AuthService {
 
-   private Logger logger = LoggerFactory.getLogger(AuthService.class);
+    private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     @Autowired
-    JwtResponse response;
+    private JwtResponse response;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -32,18 +32,14 @@ public class AuthService {
     @Autowired
     private JwtHelper helper;
 
-    @Autowired 
-    User user;
-
-    public JwtResponse authenticate(JwtRequest request)
-    {
+    public JwtResponse authenticate(JwtRequest request) {
         logger.info("Authenticating user id and password");
         logger.info(request.getEmail());
         logger.info(request.getPassword());
         this.doAuthenticate(request.getEmail(), request.getPassword());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        
+
         logger.info("Generating JWT token");
         String token = this.helper.generateToken(userDetails);
 
@@ -57,7 +53,6 @@ public class AuthService {
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
         try {
-            System.out.println("under authenticate");
             manager.authenticate(authentication);
 
         } catch (BadCredentialsException e) {

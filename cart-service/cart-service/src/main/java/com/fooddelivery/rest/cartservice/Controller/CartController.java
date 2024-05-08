@@ -24,40 +24,37 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/create/{userId}")
-    public ResponseEntity<?> createCart(@PathVariable String userId) throws ApiException
-    {
+    public ResponseEntity<?> createCart(@PathVariable String userId) throws ApiException {
         Cart cart = cartService.createCart(userId);
 
         return ResponseEntity.ok().body(cart);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> findCartByUserId(@PathVariable String userId)
-    {
+    public ResponseEntity<?> findCartByUserId(@PathVariable String userId) {
         Cart cart = cartService.getCartByUserId(userId);
 
         return ResponseEntity.ok().body(cart);
     }
 
     @PostMapping("/add/{userId}/{itemId}/quantity/{quantity}")
-    public ResponseEntity<?> addItemIntoCart(@PathVariable String userId, @PathVariable String itemId, @PathVariable String quantity, @RequestHeader("Authorization") String token) throws ResourceNotFoundException
-    {
+    public ResponseEntity<?> addItemIntoCart(@PathVariable String userId, @PathVariable String itemId,
+            @PathVariable String quantity, @RequestHeader("Authorization") String token)
+            throws ResourceNotFoundException {
         Cart cart = cartService.addProductIntoCart(userId, itemId, quantity, token);
 
         return ResponseEntity.created(null).body(cart);
     }
 
     @DeleteMapping("/delete/{userId}/itemId/{itemId}")
-    public ResponseEntity<?> removeCartItem(@PathVariable String userId, @PathVariable String itemId)
-    {
+    public ResponseEntity<?> removeCartItem(@PathVariable String userId, @PathVariable String itemId) {
         Cart cart = cartService.deleteCartItem(userId, itemId);
 
         return ResponseEntity.accepted().body(cart);
     }
 
     @DeleteMapping("/{cartId}/delete/allItem")
-    public ResponseEntity<?> removeAllCartItem(@PathVariable String cartId)
-    {
+    public ResponseEntity<?> removeAllCartItem(@PathVariable String cartId) {
         Cart cart = cartService.removeAllCartItem(cartId);
 
         return ResponseEntity.accepted().body(cart);

@@ -15,44 +15,37 @@ import com.fooddelivery.rest.foodmenuservice.Repository.FoodItemRepository;
 public class FoodItemService {
 
     @Autowired
-    FoodItemRepository foodItemRepository;
+    private FoodItemRepository foodItemRepository;
 
-
-    public List<FoodItems> getAllItems()
-    {
-       return foodItemRepository.findAll();
+    public List<FoodItems> getAllItems() {
+        return foodItemRepository.findAll();
     }
 
-    public Optional<FoodItems> getItemById(String id) throws ResourceNotFoundException
-    {
+    public Optional<FoodItems> getItemById(String id) throws ResourceNotFoundException {
         Optional<FoodItems> items = foodItemRepository.findById(id);
-        if(items == null)
-        {
-            throw new ResourceNotFoundException("item not found with id: "+id);
+        if (items == null) {
+            throw new ResourceNotFoundException("item not found with id: " + id);
         }
         return items;
     }
 
-    public FoodItems saveItems(FoodItems items)
-    {
+    public FoodItems saveItems(FoodItems items) {
         List<FoodItemVariant> variant = items.getVariant();
-        
+
         for (FoodItemVariant val : variant) {
 
             val.setSpecialPrice(val.getPrice() - items.getDiscount());
         }
-        
+
         items.setVariant(variant);
         return foodItemRepository.save(items);
     }
 
-    public FoodItems updateItems(String id, FoodItems items) throws ResourceNotFoundException
-    {
+    public FoodItems updateItems(String id, FoodItems items) throws ResourceNotFoundException {
         Optional<FoodItems> foodItems = getItemById(id);
 
-        if(foodItems == null)
-        {
-            throw new ResourceNotFoundException("item not found with id: "+id);
+        if (foodItems == null) {
+            throw new ResourceNotFoundException("item not found with id: " + id);
         }
         return foodItemRepository.save(items);
     }

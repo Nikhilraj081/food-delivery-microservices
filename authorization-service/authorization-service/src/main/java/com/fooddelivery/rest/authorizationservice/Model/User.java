@@ -1,16 +1,11 @@
 package com.fooddelivery.rest.authorizationservice.Model;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Document
 @Component
-public class User implements UserDetails  {
+public class User implements UserDetails {
 
     @Id
     private String id;
@@ -49,8 +44,7 @@ public class User implements UserDetails  {
 
     @NotEmpty(message = "Password should not be null")
     private String password;
-    private List<Address> address; 
-
+    private List<Address> address;
 
     @Override
     @JsonIgnore
@@ -58,33 +52,38 @@ public class User implements UserDetails  {
 
         return null;
     }
+
     @Override
     public String getUsername() {
-       
+
         return this.emailId;
     }
+
     @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
-        
+
         return true;
     }
+
     @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
-        
+
         return true;
     }
+
     @Override
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
-        
+
         return true;
     }
+
     @Override
     @JsonIgnore
     public boolean isEnabled() {
-        
+
         return true;
     }
 

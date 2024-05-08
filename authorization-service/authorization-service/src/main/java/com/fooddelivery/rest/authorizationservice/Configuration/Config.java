@@ -7,18 +7,18 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 public class Config {
 
-     @Bean
-    public PasswordEncoder passwordEncoder()
-    {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
+        
         return builder.getAuthenticationManager();
     }
 

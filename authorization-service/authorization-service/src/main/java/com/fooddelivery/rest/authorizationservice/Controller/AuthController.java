@@ -15,32 +15,27 @@ import com.fooddelivery.rest.authorizationservice.Service.UserService;
 
 import jakarta.validation.Valid;
 
-
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-
-  @Autowired
+    @Autowired
     private AuthService authService;
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request)
-    {
-        JwtResponse response = authService.authenticate(request);
+    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
+        JwtResponse response = authService.authenticate(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> userRegister(@Valid @RequestBody User user)
-    {
+    public ResponseEntity<?> userRegister(@Valid @RequestBody User user) {
+
         User userDetails = userService.setUser(user);
-      
         return ResponseEntity.status(HttpStatus.CREATED).body(userDetails);
     }
 

@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItem {
-    
-    public String cartItemId;
-    public String foodItemId;
-    public String name;
-    public double price;
-    public double discount;
-    public double specialPrice;
-    public String quantity;
+
+    private String cartItemId;
+    private String foodItemId;
+    private String name;
+    private double price;
+    private double discount;
+    private double specialPrice;
+    private String quantity;
 
 }

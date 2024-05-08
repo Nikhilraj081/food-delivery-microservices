@@ -22,38 +22,33 @@ import java.util.Optional;
 @RequestMapping("/items")
 public class FoodItemController {
 
-    private static final String List = null;
     @Autowired
-    FoodItemService foodItemService;
-
+    private FoodItemService foodItemService;
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllItems()
-    {
-        List<FoodItems>  items = foodItemService.getAllItems();
+    public ResponseEntity<?> getAllItems() {
+        List<FoodItems> items = foodItemService.getAllItems();
 
         return ResponseEntity.ok().body(items);
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> getItemsById(@PathVariable("id") String id) throws ResourceNotFoundException
-    {
+    public ResponseEntity<?> getItemsById(@PathVariable("id") String id) throws ResourceNotFoundException {
         Optional<FoodItems> item = foodItemService.getItemById(id);
 
         return ResponseEntity.ok().body(item);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveItems(@Valid @RequestBody FoodItems items)
-    {
+    public ResponseEntity<?> saveItems(@Valid @RequestBody FoodItems items) {
         FoodItems item = foodItemService.saveItems(items);
 
         return ResponseEntity.created(null).body(item);
     }
 
     @PostMapping("/id/{id}/update")
-    public ResponseEntity<?> updateItems(@Valid @PathVariable("id") String id, @RequestBody FoodItems item) throws ResourceNotFoundException
-    {
+    public ResponseEntity<?> updateItems(@Valid @PathVariable("id") String id, @RequestBody FoodItems item)
+            throws ResourceNotFoundException {
         FoodItems foodItem = foodItemService.updateItems(id, item);
 
         return ResponseEntity.accepted().body(foodItem);

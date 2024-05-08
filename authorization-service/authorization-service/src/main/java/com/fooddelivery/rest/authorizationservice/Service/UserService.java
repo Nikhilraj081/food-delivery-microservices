@@ -17,38 +17,33 @@ import com.fooddelivery.rest.authorizationservice.Repository.UserRepository;
 @Service
 public class UserService {
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
-
-    public User setUser(User user)
-    {
-        if(userRepository.findByEmailId(user.getEmailId()) != null)
-        {
-            throw new ApiException("One user is already registered with email id: "+user.getEmailId());
+    public User setUser(User user) {
+        if (userRepository.findByEmailId(user.getEmailId()) != null) {
+            throw new ApiException("One user is already registered with email id: " + user.getEmailId());
         }
 
-        if(userRepository.findByMobileNo(user.getMobileNo()) != null)
-        {
-            throw new ApiException("One user is already registered with mobile no: "+user.getMobileNo());
+        if (userRepository.findByMobileNo(user.getMobileNo()) != null) {
+            throw new ApiException("One user is already registered with mobile no: " + user.getMobileNo());
         }
-        
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     public Optional<User> getUserById(String id) {
 
-       Optional<User> user =userRepository.findById(id);
-       return  user;
+        Optional<User> user = userRepository.findById(id);
+        return user;
     }
 
-    //set user address
-    public User setAddress(Address address, String userId)
-    {
+    // set user address
+    public User setAddress(Address address, String userId) {
         address.setId(UUID.randomUUID().toString());
 
         User user = getUserById(userId).get();
@@ -57,25 +52,22 @@ public class UserService {
         newAddress.add(address);
 
         user.setAddress(newAddress);
-        
+
         return userRepository.save(user);
     }
 
-    public Address getAddressById(String userId, String addressId) throws ResourceNotFoundException
-    {
+    public Address getAddressById(String userId, String addressId) throws ResourceNotFoundException {
         User user = getUserById(userId).get();
 
         List<Address> address = user.getAddress();
 
-        for(Address val : address)
-        {
-            if(val.getId().equals(addressId))
-            {
+        for (Address val : address) {
+            if (val.getId().equals(addressId)) {
                 return val;
             }
         }
 
-        throw new ResourceNotFoundException("Address not found with id: "+addressId);
+        throw new ResourceNotFoundException("Address not found with id: " + addressId);
     }
 
 }

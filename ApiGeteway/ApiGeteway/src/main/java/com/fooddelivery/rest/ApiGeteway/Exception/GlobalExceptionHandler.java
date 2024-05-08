@@ -14,38 +14,38 @@ import jakarta.ws.rs.BadRequestException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<ApiResponse> ApiExceptionHandler(ApiException ex)
-    {
+    public ResponseEntity<ApiResponse> ApiExceptionHandler(ApiException ex) {
+
         String message = ex.getMessage();
 
-        ApiResponse apiResponse = new ApiResponse(message,false);
-        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
+        ApiResponse apiResponse = new ApiResponse(message, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ApiResponse> BadRequestException(BadRequestException ex)
-    {
-        String message = ex.getMessage();
+    public ResponseEntity<ApiResponse> BadRequestException(BadRequestException ex) {
 
-        ApiResponse apiResponse = new ApiResponse(message,false);
-        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+        String message = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
+
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MalformedJwtException.class)
-    public ResponseEntity<ApiResponse> MalformedJwtException(MalformedJwtException ex)
-    {
-        String message = ex.getMessage();
+    public ResponseEntity<ApiResponse> MalformedJwtException(MalformedJwtException ex) {
 
-        ApiResponse apiResponse = new ApiResponse(message,false);
-        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+        String message = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
+
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<ApiResponse> ExpiredJwtException(ExpiredJwtException ex)
-    {
-        ApiResponse apiResponse = new ApiResponse("Auth token is expired please generate a new token",false);
-        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse> ExpiredJwtException(ExpiredJwtException ex) {
+
+        ApiResponse apiResponse = new ApiResponse("Auth token is expired please generate a new token", false);
+
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
-   
 }
