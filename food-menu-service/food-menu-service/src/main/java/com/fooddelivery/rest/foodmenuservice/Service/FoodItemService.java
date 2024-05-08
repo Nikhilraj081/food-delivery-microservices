@@ -42,12 +42,29 @@ public class FoodItemService {
     }
 
     public FoodItems updateItems(String id, FoodItems items) throws ResourceNotFoundException {
-        Optional<FoodItems> foodItems = getItemById(id);
+        FoodItems foodItems = getItemById(id).get();
 
         if (foodItems == null) {
             throw new ResourceNotFoundException("item not found with id: " + id);
         }
-        return foodItemRepository.save(items);
+        
+        foodItems.setAbout(items.getAbout());
+        foodItems.setCategory(items.getCategory());
+        foodItems.setDiscount(items.getDiscount());
+        foodItems.setName(items.getName());
+        foodItems.setReview(items.getReview());
+        foodItems.setType(items.getType());
+        foodItems.setVariant(items.getVariant());
+
+        List<FoodItemVariant> variant = items.getVariant();
+
+        for (FoodItemVariant val : variant) {
+
+            val.setSpecialPrice(val.getPrice() - items.getDiscount());
+        }
+
+        foodItems.setVariant(variant);
+        return foodItemRepository.save(foodItems);
     }
 
 }

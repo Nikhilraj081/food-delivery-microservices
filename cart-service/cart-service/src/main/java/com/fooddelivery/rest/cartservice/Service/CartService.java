@@ -141,6 +141,9 @@ public class CartService {
             cart.setDeliveryFee(Constant.DELIVERY_FEE);
             totalPrice = totalPrice + Constant.DELIVERY_FEE;
         }
+        else{
+            cart.setDeliveryFee(Constant.DEFAULT_PRICE);
+        }
 
         cart.setTotalPrice(totalPrice);
         cart.setTotalDiscount(totalDiscount);
