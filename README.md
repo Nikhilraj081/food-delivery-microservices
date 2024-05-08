@@ -5,7 +5,7 @@ The Food Delivery Microservices project aims to develop a scalable and efficient
 
 **Auth-Service:** Handles user authentication, registration, profile management, and authorization.
 
-**Food-Menu-Service:** Users can add items, remove items, adjust the quantity of items, and view the contents of their cart at any time, including the total price.
+**Cart-Service:** Users can add items, remove items, adjust the quantity of items, and view the contents of their cart at any time, including the total price.
 
 **Food-Menu-Service:** Manages foodItem, availability, and orders.
 
@@ -36,7 +36,7 @@ And run below command to start each service
 ```bash
   mvn clean spring-boot:run
 ```
-Once  all server is started paste below link to your browser to check status of services, if all service is UP then we are good to test endpoins.
+Once  all server is started paste below link into your browser to check status of services, if all service is UP then we are good to test endpoins.
 ```bash
   http://localhost:8761/
 ```
