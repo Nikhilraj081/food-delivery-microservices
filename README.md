@@ -44,13 +44,15 @@ To test with postman collection go to Postman/Collection folder and import colle
  environment file location: food-delivery-microservices/Postman/Environment/
 
 ```
+![alt text](</ReadmeImage/Screenshot (70).png>)
+
 Once environment and collections are imported go to auth-service/Login api and gererate token 
 
 ![alt text](</ReadmeImage/Screenshot (65).png>)
 
 Once token is generated copy that token and go to environment "Testing" and change token value with new generated token value
 
-![alt text](</ReadmeImage/Screenshot (66).png>)
+![alt text](</ReadmeImage/Screenshot (68).png>)
 
  After that select environment (Testing) in postman, Now we are good to run collection.
 
