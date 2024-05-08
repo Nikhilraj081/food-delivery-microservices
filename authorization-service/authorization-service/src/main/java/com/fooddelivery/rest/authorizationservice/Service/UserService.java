@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fooddelivery.rest.authorizationservice.Exception.ApiException;
 import com.fooddelivery.rest.authorizationservice.Exception.ResourceNotFoundException;
 import com.fooddelivery.rest.authorizationservice.Model.Address;
 import com.fooddelivery.rest.authorizationservice.Model.User;
@@ -25,6 +26,16 @@ public class UserService {
 
     public User setUser(User user)
     {
+        if(userRepository.findByEmailId(user.getEmailId()) != null)
+        {
+            throw new ApiException("One user is already registered with email id: "+user.getEmailId());
+        }
+
+        if(userRepository.findByMobileNo(user.getMobileNo()) != null)
+        {
+            throw new ApiException("One user is already registered with mobile no: "+user.getMobileNo());
+        }
+        
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

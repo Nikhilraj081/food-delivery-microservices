@@ -1,13 +1,19 @@
-package com.fooddelivery.rest.ApiGeteway.Exception;
+package com.fooddelivery.rest.authorizationservice.Exception;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.fooddelivery.rest.ApiGeteway.Model.ApiResponse;
+
+import com.fooddelivery.rest.authorizationservice.Paylods.ApiResponse;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.BadRequestException;
 
 @RestControllerAdvice
@@ -45,6 +51,31 @@ public class GlobalExceptionHandler {
     {
         ApiResponse apiResponse = new ApiResponse("Auth token is expired please generate a new token",false);
         return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> ConstraintViolationException(ConstraintViolationException ex)
+    {
+        Map<String, String> response = new HashMap<>();
+         ex.getConstraintViolations().forEach(error -> {
+            String fieldName = error.getPropertyPath().toString();
+            String message = error.getMessageTemplate(); 
+            response.put(fieldName, message);
+         });
+
+        return new ResponseEntity<Map<String, String>>(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> methodArgumentNotValidException(MethodArgumentNotValidException ex)
+    {
+        Map<String, String> response = new HashMap<>();
+        ex.getFieldErrors().forEach(error -> {
+            String fieldName = error.getField();
+            String message = error.getDefaultMessage();
+            response.put(fieldName, message);
+         });
+        return new ResponseEntity<Map<String, String>>(response,HttpStatus.BAD_REQUEST);
     }
 
    

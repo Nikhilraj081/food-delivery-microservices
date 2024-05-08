@@ -1,5 +1,4 @@
-package com.fooddelivery.rest.ApiGeteway.Model;
-
+package com.fooddelivery.rest.cartservice.Paylods;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

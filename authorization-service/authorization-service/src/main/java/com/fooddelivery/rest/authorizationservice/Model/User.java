@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,10 +32,22 @@ public class User implements UserDetails  {
 
     @Id
     private String id;
+
+    @NotEmpty(message = "First Name should not be null")
     private String firstName;
+
+    @NotEmpty(message = "Last Name should not be null")
     private String lastName;
+
+    @NotEmpty(message = "Mobile no should not be null")
+    @Size(min = 10, max = 10, message = "mobile number must be 10 digit")
     private String mobileNo;
+
+    @Email(message = "Email is not valid")
+    @NotEmpty(message = "Email id should not be empty")
     private String emailId;
+
+    @NotEmpty(message = "Password should not be null")
     private String password;
     private List<Address> address; 
 

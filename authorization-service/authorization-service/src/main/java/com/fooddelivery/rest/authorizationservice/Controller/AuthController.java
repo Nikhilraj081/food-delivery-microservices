@@ -13,6 +13,8 @@ import com.fooddelivery.rest.authorizationservice.Model.User;
 import com.fooddelivery.rest.authorizationservice.Service.AuthService;
 import com.fooddelivery.rest.authorizationservice.Service.UserService;
 
+import jakarta.validation.Valid;
+
 
 
 @RestController
@@ -35,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> userRegister(@RequestBody User user)
+    public ResponseEntity<?> userRegister(@Valid @RequestBody User user)
     {
         User userDetails = userService.setUser(user);
       

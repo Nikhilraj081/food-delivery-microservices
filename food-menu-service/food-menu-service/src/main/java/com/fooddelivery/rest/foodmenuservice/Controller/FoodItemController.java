@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fooddelivery.rest.foodmenuservice.Exception.ResourceNotFoundException;
 import com.fooddelivery.rest.foodmenuservice.Model.FoodItems;
 import com.fooddelivery.rest.foodmenuservice.Service.FoodItemService;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +44,7 @@ public class FoodItemController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveItems(@RequestBody FoodItems items)
+    public ResponseEntity<?> saveItems(@Valid @RequestBody FoodItems items)
     {
         FoodItems item = foodItemService.saveItems(items);
 
@@ -49,7 +52,7 @@ public class FoodItemController {
     }
 
     @PostMapping("/id/{id}/update")
-    public ResponseEntity<?> updateItems(@PathVariable("id") String id, @RequestBody FoodItems item) throws ResourceNotFoundException
+    public ResponseEntity<?> updateItems(@Valid @PathVariable("id") String id, @RequestBody FoodItems item) throws ResourceNotFoundException
     {
         FoodItems foodItem = foodItemService.updateItems(id, item);
 

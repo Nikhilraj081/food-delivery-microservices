@@ -16,6 +16,8 @@ import com.fooddelivery.rest.authorizationservice.Model.Address;
 import com.fooddelivery.rest.authorizationservice.Model.User;
 import com.fooddelivery.rest.authorizationservice.Service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -31,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/id/{id}/add/address")
-    public ResponseEntity<?> addAddress(@RequestBody Address address,@PathVariable("id") String id)
+    public ResponseEntity<?> addAddress(@Valid @RequestBody Address address,@PathVariable("id") String id)
     {
        User user = userService.setAddress(address, id);
 
