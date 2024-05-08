@@ -1,0 +1,577 @@
+{
+	"info": {
+		"_postman_id": "bb5c822f-264b-4351-a436-a1130413719f",
+		"name": "Food-delivery-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34733989"
+	},
+	"item": [
+		{
+			"name": "auth-service",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nikhil@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth-service/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth-service",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Nikhil\",\r\n    \"lastName\": \"Raj\",\r\n    \"mobileNo\": \"7876787678\",\r\n    \"emailId\": \"nikhil@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"address\": \r\n    [\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth-service/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth-service",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth-service/user/id/{{userId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth-service",
+								"user",
+								"id",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddAddress",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"Nikhil Raj\",\r\n    \"address\": \"masumganj\",\r\n    \"pinCode\": \"867678\",\r\n    \"state\": \"bihar\",\r\n    \"city\": \"chhapra\",\r\n    \"landMark\": \"shiv mandir\"\r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth-service/user/id/{{userId}}/add/address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth-service",
+								"user",
+								"id",
+								"{{userId}}",
+								"add",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAddressById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth-service/user/{{userId}}/address/{{addressId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth-service",
+								"user",
+								"{{userId}}",
+								"address",
+								"{{addressId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order-Service",
+			"item": [
+				{
+					"name": "createOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/order-service/order/create/user/{{userId}}/address/{{addressId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order-service",
+								"order",
+								"create",
+								"user",
+								"{{userId}}",
+								"address",
+								"{{addressId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrderByUserId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/order-service/order/user/{{userId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order-service",
+								"order",
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart-service",
+			"item": [
+				{
+					"name": "createCart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cart-service/cart/create/6638c663ab9a9c3304bb82b4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cart-service",
+								"cart",
+								"create",
+								"6638c663ab9a9c3304bb82b4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addOrderIntoCart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cart-service/cart/add/{{userId}}/{{foodItemId}}/quantity/large",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cart-service",
+								"cart",
+								"add",
+								"{{userId}}",
+								"{{foodItemId}}",
+								"quantity",
+								"large"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAllCartItem",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cart-service/cart/6634f6129ff99308726cf22e/delete/allItem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cart-service",
+								"cart",
+								"6634f6129ff99308726cf22e",
+								"delete",
+								"allItem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCartByUserId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cart-service/cart/user/{{userId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cart-service",
+								"cart",
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCartByItemId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cart-service/cart/delete/userId/{{userId}}/itemId/b8d7e47a-bdb2-4903-9d49-25ce531bca05",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cart-service",
+								"cart",
+								"delete",
+								"userId",
+								"{{userId}}",
+								"itemId",
+								"b8d7e47a-bdb2-4903-9d49-25ce531bca05"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "food-menu-service",
+			"item": [
+				{
+					"name": "createFoodItems",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"onion pizza\",\r\n    \"discount\": 20.0,\r\n    \"type\": \"veg\",\r\n    \"category\": \"pizza\",\r\n    \"about\": \"onion pizza with cheese\",\r\n    \"variant\":\r\n    [\r\n       {\r\n            \"price\": \"170\",\r\n            \"quantity\": \"small\"\r\n       },\r\n       {\r\n            \"price\": \"290\",\r\n            \"quantity\": \"medium\"\r\n       },\r\n       {\r\n            \"price\": \"400\",\r\n            \"quantity\": \"large\"\r\n       }\r\n\r\n    ],\r\n    \"review\":[]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/food-service/items/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"food-service",
+								"items",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateFoodItems",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"onion pizza\",\r\n    \"discount\": 20.0,\r\n    \"type\": \"veg\",\r\n    \"category\": \"pizza\",\r\n    \"about\": \"onion pizza with cheese\",\r\n    \"variant\":\r\n    [\r\n       {\r\n            \"price\": \"180\",\r\n            \"quantity\": \"small\"\r\n       },\r\n       {\r\n            \"price\": \"300\",\r\n            \"quantity\": \"medium\"\r\n       },\r\n       {\r\n            \"price\": \"410\",\r\n            \"quantity\": \"large\"\r\n       }\r\n\r\n    ],\r\n    \"review\":[]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/food-service/items/id/{{foodItemId}}/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"food-service",
+								"items",
+								"id",
+								"{{foodItemId}}",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllFoodItems",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/food-service/items/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"food-service",
+								"items",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFoodItemById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/food-service/items/id/{{foodItemId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"food-service",
+								"items",
+								"id",
+								"{{foodItemId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
