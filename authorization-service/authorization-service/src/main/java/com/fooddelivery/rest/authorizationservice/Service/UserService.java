@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import com.fooddelivery.rest.authorizationservice.Exception.ApiException;
 import com.fooddelivery.rest.authorizationservice.Exception.ResourceNotFoundException;
@@ -23,6 +24,9 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    RestClient restClient;
+
     public User setUser(User user) {
         if (userRepository.findByEmailId(user.getEmailId()) != null) {
             throw new ApiException("One user is already registered with email id: " + user.getEmailId());
@@ -33,7 +37,15 @@ public class UserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+
+        User newUser = userRepository.save(user);
+
+        if (newUser != null) {
+
+            restClient.post().uri("/cart/create/{userId}", newUser.getId()).retrieve();
+        }
+
+        return newUser;
     }
 
     public Optional<User> getUserById(String id) {

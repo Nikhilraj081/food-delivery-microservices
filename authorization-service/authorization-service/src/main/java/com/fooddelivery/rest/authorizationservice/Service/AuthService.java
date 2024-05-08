@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.fooddelivery.rest.authorizationservice.Model.JwtRequest;
 import com.fooddelivery.rest.authorizationservice.Model.JwtResponse;
-import com.fooddelivery.rest.authorizationservice.Model.User;
 import com.fooddelivery.rest.authorizationservice.Security.JwtHelper;
 
 @Service
