@@ -40,7 +40,7 @@ Once  all server is started paste below link into your browser to check status o
 ```bash
   http://localhost:8761/
 ```
-![alt text](</ReadmeImage/Screenshot (64).png>)
+![alt text](</readmeImage/Screenshot (64).png>)
 
 ## Api test
 
@@ -52,16 +52,16 @@ To test with postman collection go to Postman/Collection folder and import colle
  environment file location: food-delivery-microservices/Postman/Environment/
 
 ```
-![alt text](</ReadmeImage/Screenshot (70).jpg>)
+![alt text](</readmeImage/Screenshot (70).jpg>)
 
 Once environment and collections are imported go to auth-service/Login api and gererate token 
 
-![alt text](</ReadmeImage/Screenshot (65).png>)
+![alt text](</readmeImage/Screenshot (65).png>)
 
 Once token is generated copy that token and go to environment "Testing" and change token value with new generated token value
 
-![alt text](</ReadmeImage/Screenshot (68).jpg>)
+![alt text](</readmeImage/Screenshot (68).jpg>)
 
  After that select environment (Testing) in postman, Now we are good to run collection.
 
- ![alt text](</ReadmeImage/Screenshot (67).jpg>)
+ ![alt text](</readmeImage/Screenshot (67).jpg>)
