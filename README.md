@@ -31,7 +31,7 @@ Open terminal and go to food-delivery-microservices folders and then go to below
 /cart-service/cart-service/
 /order-service/order-service
 ```
-And run below command to start each service
+And run below command to start each service individually.
 
 ```bash
   mvn clean spring-boot:run
@@ -45,22 +45,22 @@ Once  all server is started paste below link into your browser to check status o
 ## Api test
 
 #### Postman collection test:
-To test with postman collection go to Postman/Collection folder and import collection and environment in postman workspace.
+To test with postman collection go to postman folder and import collection and environment in postman workspace.
 
 ```bash
- collction file location: food-delivery-microservices/Postman/Collection/
- environment file location: food-delivery-microservices/Postman/Environment/
+ collction file location: food-delivery-microservices/postman/Collection/
+ environment file location: food-delivery-microservices/postman/Environment/
 
 ```
 ![alt text](</readmeImage/Screenshot (70).jpg>)
 
-Once environment and collections are imported go to auth-service/Login api and gererate token 
+Once environment and collections are imported go to auth-service/Login api and gererate token.
 
 ![alt text](</readmeImage/Screenshot (65).png>)
 
-Once token is generated copy that token and go to environment "Testing" and change token value with new generated token value
+Once token is generated copy that token and go to environment "Testing" and change token value with new generated token value.
 
-![alt text](</readmeImage/Screenshot (68).jpg>)
+![alt text](</readmeImage/Screenshot (71).jpg>)
 
  After that select environment (Testing) in postman, Now we are good to run collection.
 
