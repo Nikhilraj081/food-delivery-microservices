@@ -25,7 +25,7 @@ Clone this repository in your local system
 Open terminal and go to food-delivery-microservices folders and then go to below folder one by one:
 ```bash
 /registry-service/registry-service
-/ApiGeteway/ApiGeteway
+/api-gateway/api-gateway
 /authorization-service/authorization-service
 /food-menu-service/food-menu-service
 /cart-service/cart-service/
