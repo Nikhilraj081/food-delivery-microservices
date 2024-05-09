@@ -7,7 +7,7 @@ The Food Delivery Microservices project aims to develop a scalable and efficient
 
 **Cart-Service:** Users can add items, remove items, adjust the quantity of items, and view the contents of their cart at any time, including the total price.
 
-**Food-Menu-Service:** Manages foodItem, availability, and orders.
+**Restaurants-Service:** Manages foodItem, availability, and orders.
 
 **Order-Service:** Facilitates order placement, tracking, and status updates.
 
@@ -24,12 +24,12 @@ Clone this repository in your local system
 ```
 Open terminal and go to food-delivery-microservices folders and then go to below folder one by one:
 ```bash
-/registry-service/registry-service
-/api-gateway/api-gateway
-/authorization-service/authorization-service
+/registry-service
+/api-gateway
+/authorization-service
 /restaurants-service
-/cart-service/cart-service/
-/order-service/order-service
+/cart-service
+/order-service
 ```
 And run below command to start each service individually.
 
@@ -45,7 +45,7 @@ Once  all server is started paste below link into your browser to check status o
 ## Api test
 
 #### Postman collection test:
-To test with postman collection go to postman folder and import collection and environment in postman workspace.
+To test with postman collection go to postman folder and import collection and environment in your postman workspace.
 
 ```bash
  collction file location: food-delivery-microservices/postman/Collection/
@@ -54,7 +54,7 @@ To test with postman collection go to postman folder and import collection and e
 ```
 ![alt text](</readmeImage/Screenshot (70).jpg>)
 
-Once environment and collections are imported go to auth-service/Login api and gererate token.
+Once environment and collections are imported go to auth-service/Login and hit api to gererate auth token.
 
 ![alt text](</readmeImage/Screenshot (65).png>)
 
