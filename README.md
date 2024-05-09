@@ -27,7 +27,7 @@ Open terminal and go to food-delivery-microservices folders and then go to below
 /registry-service/registry-service
 /api-gateway/api-gateway
 /authorization-service/authorization-service
-/food-menu-service/food-menu-service
+/restaurants-service
 /cart-service/cart-service/
 /order-service/order-service
 ```

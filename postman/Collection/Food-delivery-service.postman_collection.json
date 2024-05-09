@@ -451,14 +451,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/food-service/items/save",
+							"raw": "http://localhost:8080/restaurants-service/items/save",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"food-service",
+								"restaurants-service",
 								"items",
 								"save"
 							]
@@ -491,14 +491,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/food-service/items/id/{{foodItemId}}/update",
+							"raw": "http://localhost:8080/restaurants-service/items/id/{{foodItemId}}/update",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"food-service",
+								"restaurants-service",
 								"items",
 								"id",
 								"{{foodItemId}}",
@@ -524,14 +524,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/food-service/items/all",
+							"raw": "http://localhost:8080/restaurants-service/items/all",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"food-service",
+								"restaurants-service",
 								"items",
 								"all"
 							]
@@ -555,14 +555,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/food-service/items/id/{{foodItemId}}",
+							"raw": "http://localhost:8080/restaurants-service/items/id/{{foodItemId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"food-service",
+								"restaurants-service",
 								"items",
 								"id",
 								"{{foodItemId}}"
