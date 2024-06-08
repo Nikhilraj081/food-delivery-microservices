@@ -1,37 +1,30 @@
-package com.fooddelivery.rest.restaurantsservice.Model;
+package com.fooddelivery.rest.restaurantsservice.Payloads;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fooddelivery.rest.restaurantsservice.Model.FoodImage;
+import com.fooddelivery.rest.restaurantsservice.Model.FoodItemVariant;
+import com.fooddelivery.rest.restaurantsservice.Model.FoodReview;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoodItems {
+public class ItemResponse {
 
-    @Id
     private String id;
-
-    @NotEmpty(message = "item name should not be empty")
     private String name;
-
     private double discount;
-
-    @NotEmpty(message = "item type should not be empty")
     private String type;
-
-    @NotEmpty(message = "item category should not be empty")
     private String category;
-
     private String about;
     private List<FoodItemVariant> variant;
     private List<FoodReview> review; 
-    private FoodImage image;
+    private String image;
+    
 }
+

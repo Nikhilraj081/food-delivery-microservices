@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fooddelivery.rest.authorizationservice.Model.JwtRequest;
 import com.fooddelivery.rest.authorizationservice.Model.JwtResponse;
 import com.fooddelivery.rest.authorizationservice.Model.User;
+import com.fooddelivery.rest.authorizationservice.Security.JwtHelper;
 import com.fooddelivery.rest.authorizationservice.Service.AuthService;
 import com.fooddelivery.rest.authorizationservice.Service.UserService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 import jakarta.validation.Valid;
 
@@ -25,6 +29,9 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtHelper jwtHelper;
+
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
@@ -37,6 +44,12 @@ public class AuthController {
 
         User userDetails = userService.setUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDetails);
+    }
+
+    @PostMapping("/token")
+    public boolean isTokenExpired( @RequestBody String token)
+    {
+        return jwtHelper.isTokenValid(token);
     }
 
 }

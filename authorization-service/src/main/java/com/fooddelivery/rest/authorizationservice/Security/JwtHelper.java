@@ -72,4 +72,10 @@ public class JwtHelper {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    //To validate token
+    public Boolean isTokenValid(String token)
+    {
+        return isTokenExpired(token);
+    }
+
 }

@@ -1,20 +1,22 @@
-package com.fooddelivery.rest.restaurantsservice.Model;
+package com.fooddelivery.rest.restaurantsservice.Payloads;
 
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fooddelivery.rest.restaurantsservice.Model.FoodImage;
+import com.fooddelivery.rest.restaurantsservice.Model.FoodItemVariant;
+import com.fooddelivery.rest.restaurantsservice.Model.FoodReview;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class FoodItems {
+@AllArgsConstructor
+public class FoodItemsDto {
 
     @Id
     private String id;
@@ -33,5 +35,6 @@ public class FoodItems {
     private String about;
     private List<FoodItemVariant> variant;
     private List<FoodReview> review; 
-    private FoodImage image;
+    private FoodImageDto image;
+    
 }

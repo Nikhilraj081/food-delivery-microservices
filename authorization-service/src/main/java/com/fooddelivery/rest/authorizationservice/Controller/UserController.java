@@ -15,6 +15,8 @@ import com.fooddelivery.rest.authorizationservice.Exception.ResourceNotFoundExce
 import com.fooddelivery.rest.authorizationservice.Model.Address;
 import com.fooddelivery.rest.authorizationservice.Model.User;
 import com.fooddelivery.rest.authorizationservice.Service.UserService;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.validation.Valid;
 
@@ -24,6 +26,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @GetMapping("/userName/{userName}")
+    public ResponseEntity<UserDetails> getUserByEmail(@PathVariable("userName") String userName)
+    {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        return ResponseEntity.ok().body(userDetails);
+    }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<Optional<User>> getUserById(@PathVariable("id") String id) {
