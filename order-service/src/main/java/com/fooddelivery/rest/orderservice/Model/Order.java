@@ -28,5 +28,8 @@ public class Order {
     private List<CartItem> items;
     private LocalDate date;
     private LocalTime time;
+    private boolean active;
+    private String paymentId;
+    private String paymentStatus;
 
 }

@@ -2,6 +2,7 @@ package com.fooddelivery.rest.cartservice.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class CartService {
     private RestClient restClient;
 
     public Cart createCart(String userId) throws ApiException {
-        if (getCartByUserId(userId) != null) {
+        if (cartRepository.findCartByUserId(userId) != null) {
             throw new ApiException("cart is already exist with userId " + userId);
         }
         List<CartItem> item = new ArrayList<CartItem>();
@@ -36,25 +37,59 @@ public class CartService {
         cart.setId(userId);
         cart.setUserId(userId);
         cart.setCartitems(item);
+
+        System.out.println("cart created");
         return cartRepository.save(cart);
     }
 
-    public Cart getCartByUserId(String userId) {
-        return cartRepository.findCartByUserId(userId);
+    public Cart getCartByUserId(String userId) throws ApiException {
+
+        if (cartRepository.findCartByUserId(userId) == null) {
+            createCart(userId);
+        }
+
+        Cart newCart = cartRepository.findCartByUserId(userId);
+       
+        return newCart;
     }
 
     // add item into cart
 
     public Cart addProductIntoCart(String userId, String productId, String quantity, String token)
-            throws ResourceNotFoundException {
+            throws ResourceNotFoundException, ApiException {
+
+        System.out.println("enter to if addcart method");
+        if (cartRepository.findCartByUserId(userId) == null) {
+            System.out.println("enter to if condition");
+            createCart(userId);
+        }
+
+        System.out.println("outside if");
 
         Cart cart = cartRepository.findCartByUserId(userId);
 
         List<CartItem> item = cart.getCartitems();
 
+       
+
+        if (item != null) {
+            for (CartItem cartItem : item) {
+
+                if (cartItem.getFoodItemId().equals(productId) && cartItem.getQuantity().equals(quantity)) {
+
+                    System.out.println("cart item id "+ cartItem.getFoodItemId());
+                    System.out.println("product id "+ productId);
+                    System.out.println("no of items "+ cartItem.getNumOfItem());
+                    return updateCartItem(cartItem.getNumOfItem() + 1, userId, cartItem.getCartItemId());
+                }
+
+            }
+        }
+
         CartItem cartItem = new CartItem();
 
-        FoodItems foodItems = restClient.get().uri("/items/id/{productId}", productId).header("Authorization", token)
+        FoodItems foodItems = restClient.get().uri("/items/id/{productId}", productId)
+                .header("Authorization", token)
                 .retrieve().body(FoodItems.class);
 
         // set cart items
@@ -62,6 +97,7 @@ public class CartService {
         cartItem.setFoodItemId(foodItems.getId());
         cartItem.setName(foodItems.getName());
         cartItem.setDiscount(foodItems.getDiscount());
+        cartItem.setNumOfItem(Constant.DEFAULT_NO);
 
         if (!Arrays.asList(Constant.quantity).contains(quantity)) {
             throw new ResourceNotFoundException("Item not found with quantity: " + quantity);
@@ -85,9 +121,38 @@ public class CartService {
         return setCartPrice(newCart);
     }
 
+    public Cart updateCartItem(int noOfItem, String userId, String cartItemId) throws ApiException {
+        if (cartRepository.findCartByUserId(userId) == null) {
+            createCart(userId);
+        }
+
+        System.out.println("entered into update cart");
+        Cart cart = getCartByUserId(userId);
+
+        List<CartItem> cartItem = cart.getCartitems();
+
+        for (CartItem item : cartItem) {
+
+            if (item.getCartItemId().equals(cartItemId)) {
+                System.out.println("updated cart under if method");
+                System.out.println(noOfItem);
+                item.setNumOfItem(noOfItem);
+            }
+        }
+
+        System.out.println("updated cart out of for loop");
+
+        Cart newCart = cartRepository.save(cart);
+        return setCartPrice(newCart);
+    }
+
     // remove cart item from cart
 
-    public Cart deleteCartItem(String userId, String cartItemId) {
+    public Cart deleteCartItem(String userId, String cartItemId) throws ApiException {
+
+        if (cartRepository.findCartByUserId(userId) == null) {
+            createCart(userId);
+        }
         Cart cart = getCartByUserId(userId);
 
         List<CartItem> cartItem = cart.getCartitems();
@@ -107,6 +172,7 @@ public class CartService {
 
     // Remove all item from cart
     public Cart removeAllCartItem(String cartId) {
+
         Cart cart = cartRepository.findById(cartId).get();
 
         cart.getCartitems().clear();
@@ -133,15 +199,14 @@ public class CartService {
         }
 
         for (CartItem item : cartItem) {
-            totalPrice += item.getSpecialPrice();
+            totalPrice += item.getSpecialPrice() * item.getNumOfItem();
             totalDiscount += item.getDiscount();
         }
 
         if (totalPrice < 200) {
             cart.setDeliveryFee(Constant.DELIVERY_FEE);
             totalPrice = totalPrice + Constant.DELIVERY_FEE;
-        }
-        else{
+        } else {
             cart.setDeliveryFee(Constant.DEFAULT_PRICE);
         }
 

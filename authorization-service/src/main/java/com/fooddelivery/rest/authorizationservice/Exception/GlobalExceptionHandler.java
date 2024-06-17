@@ -50,32 +50,36 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> ExpiredJwtException(ExpiredJwtException ex)
     {
         ApiResponse apiResponse = new ApiResponse("Auth token is expired please generate a new token",false);
-        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.OK);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> ConstraintViolationException(ConstraintViolationException ex)
+    public ResponseEntity<?> ConstraintViolationException(ConstraintViolationException ex)
     {
-        Map<String, String> response = new HashMap<>();
+        // Map<String, String> response = new HashMap<>();
+        ApiResponse response = new ApiResponse();
          ex.getConstraintViolations().forEach(error -> {
             String fieldName = error.getPropertyPath().toString();
             String message = error.getMessageTemplate(); 
-            response.put(fieldName, message);
+            response.setMessage(message);
+            response.setStatus(false);
          });
 
-        return new ResponseEntity<Map<String, String>>(response,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ApiResponse>(response,HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> methodArgumentNotValidException(MethodArgumentNotValidException ex)
+    public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException ex)
     {
-        Map<String, String> response = new HashMap<>();
+        // Map<String, String> response = new HashMap<>();
+        ApiResponse response = new ApiResponse();
         ex.getFieldErrors().forEach(error -> {
             String fieldName = error.getField();
             String message = error.getDefaultMessage();
-            response.put(fieldName, message);
+            response.setMessage(message);
+            response.setStatus(false);
          });
-        return new ResponseEntity<Map<String, String>>(response,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ApiResponse>(response,HttpStatus.BAD_REQUEST);
     }
 
    

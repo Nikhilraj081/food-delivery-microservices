@@ -48,6 +48,22 @@ public class FoodItemController {
         return ResponseEntity.ok().body(items);
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<?> getItemsByCategory(@PathVariable("category") String category) throws IOException {
+
+        List<ItemResponse> items = foodItemService.getItemsByCategory(category);
+
+        return ResponseEntity.ok().body(items);
+    }
+
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<?> searchItems(@PathVariable("keyword") String keyword) throws IOException {
+        
+        List<ItemResponse> items = foodItemService.searchItems(keyword);
+
+        return ResponseEntity.ok().body(items);
+    }
+
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getItemsById(@PathVariable("id") String id) throws ResourceNotFoundException {
         Optional<FoodItems> item = foodItemService.getItemById(id);

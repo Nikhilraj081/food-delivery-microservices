@@ -33,7 +33,8 @@ public class SecurityConfiguration {
 
     private static final String[] AUTH_WHITELIST = {
             "/auth/login",
-            "/auth/register"
+            "/auth/register",
+            "/auth/token"
     };
 
     @Bean

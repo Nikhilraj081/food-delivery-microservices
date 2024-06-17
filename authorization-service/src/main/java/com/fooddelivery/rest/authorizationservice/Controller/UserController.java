@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fooddelivery.rest.authorizationservice.Exception.ResourceNotFoundException;
 import com.fooddelivery.rest.authorizationservice.Model.Address;
 import com.fooddelivery.rest.authorizationservice.Model.User;
+import com.fooddelivery.rest.authorizationservice.Repository.UserRepository;
 import com.fooddelivery.rest.authorizationservice.Service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -57,6 +60,21 @@ public class UserController {
 
         Address address = userService.getAddressById(userId, addressId);
         return ResponseEntity.ok().body(address);
+    }
+
+    @DeleteMapping("/{userId}/address/{addressId}/delete")
+    public ResponseEntity<?> deleteAddress(@PathVariable("userId") String userId ,@PathVariable("addressId") String addressId)
+    {
+       User user = userService.deleteaddress(userId,addressId);
+       return ResponseEntity.ok().body(user);
+    }
+
+    @PutMapping("/{userId}/update")
+    public ResponseEntity<?> updateUser(@PathVariable("userId") String userId, @Valid @RequestBody User user)
+    {
+        User newUser = userService.updateUser(userId,user);
+
+        return ResponseEntity.created(null).body(newUser);
     }
 
 }

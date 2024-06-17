@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.fooddelivery.rest.authorizationservice.Configuration.Constants;
+import com.fooddelivery.rest.authorizationservice.Paylods.ApiResponse;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -73,9 +74,13 @@ public class JwtHelper {
     }
 
     //To validate token
-    public Boolean isTokenValid(String token)
+    public ApiResponse isTokenValid(String token)
     {
-        return isTokenExpired(token);
+        ApiResponse response = new ApiResponse();
+
+        response.setMessage("token is valid");
+        response.setStatus(!isTokenExpired(token));
+        return response;
     }
 
 }

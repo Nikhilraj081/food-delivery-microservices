@@ -2,6 +2,8 @@ package com.fooddelivery.rest.orderservice.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import com.fooddelivery.rest.orderservice.Configuration.Constants;
+import com.fooddelivery.rest.orderservice.Exception.ApiException;
 import com.fooddelivery.rest.orderservice.Model.Cart;
 import com.fooddelivery.rest.orderservice.Model.Order;
 import com.fooddelivery.rest.orderservice.Model.ShippingAddress;
@@ -24,14 +27,17 @@ public class OrderService {
     @Autowired
     private RestClient restClient;
 
-    //crete order
-    public Order createOrder(String userId, String addressId, String token)
-    {
-        Cart cart = restClient.get().uri("/cart-service/cart/user/{userId}",userId).header("Authorization", token).retrieve().body(Cart.class);
+    // crete order
+    public Order createOrder(String userId, String addressId, String token, String orderId) {
+        Cart cart = restClient.get().uri("/cart-service/cart/user/{userId}", userId).header("Authorization", token)
+                .retrieve().body(Cart.class);
 
-        ShippingAddress address = restClient.get().uri("/auth-service/user/{userId}/address/{addressId}",userId,addressId).header("Authorization", token).retrieve().body(ShippingAddress.class);
+        ShippingAddress address = restClient.get()
+                .uri("/auth-service/user/{userId}/address/{addressId}", userId, addressId)
+                .header("Authorization", token).retrieve().body(ShippingAddress.class);
+        
         Order order = new Order();
-        order.setId(UUID.randomUUID().toString());
+        order.setId(orderId);
         order.setItems(cart.getCartitems());
         order.setUserId(userId);
         order.setAddress(address);
@@ -41,22 +47,42 @@ public class OrderService {
         order.setDiscount(cart.getTotalDiscount());
         order.setDeliveryFee(cart.getDeliveryFee());
         order.setStatus(Constants.DEFAULT_DELIVERY_STATUS);
+        order.setActive(Constants.DEFAULT_ACTIVE_STATUS);
+        
+
+        Order newOrder = orderRepository.save(order);
+        return newOrder;
+    }
+
+    // To get order by user id
+    public List<Order> getOrderByUserId(String userId) {
+        List<Order> order = orderRepository.findByUserId(userId);
+        Collections.reverse(order);
+        return order;
+    }
+
+    // To update order
+    public Order updateOrder(String orderId, String paymentId, String paymentStatus, String orderstatus) {
+
+        Order order = orderRepository.findById(orderId).get();
+        order.setActive(true);
+        order.setPaymentId(paymentId);
+        order.setPaymentStatus(paymentStatus);
+        order.setStatus(orderstatus);
 
         Order newOrder = orderRepository.save(order);
 
-        if(newOrder != null)
-        {
-            restClient.delete().uri("/cart-service/cart/{cartId}/delete/allItem",cart.getId()).header("Authorization", token).retrieve();
+        if (newOrder != null) {
+            return newOrder;
         }
 
-       return order;
+        throw new ApiException("Order is not updated");
     }
 
-    public List<Order> getOrderByUserId(String userId)
-    {
-        List<Order> order = orderRepository.findByUserId(userId);
-
-        return order;
+    // to delete order
+    public boolean deleteOrder(String orderId) {
+        orderRepository.deleteById(orderId);
+        return true;
     }
 
 }

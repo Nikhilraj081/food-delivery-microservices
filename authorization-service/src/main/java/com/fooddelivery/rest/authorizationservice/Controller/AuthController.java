@@ -1,5 +1,7 @@
 package com.fooddelivery.rest.authorizationservice.Controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fooddelivery.rest.authorizationservice.Model.JwtRequest;
 import com.fooddelivery.rest.authorizationservice.Model.JwtResponse;
 import com.fooddelivery.rest.authorizationservice.Model.User;
+import com.fooddelivery.rest.authorizationservice.Paylods.ApiResponse;
 import com.fooddelivery.rest.authorizationservice.Security.JwtHelper;
 import com.fooddelivery.rest.authorizationservice.Service.AuthService;
 import com.fooddelivery.rest.authorizationservice.Service.UserService;
@@ -47,9 +50,10 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public boolean isTokenExpired( @RequestBody String token)
+    public ApiResponse isTokenExpired( @RequestBody Map<String, String> token)
     {
-        return jwtHelper.isTokenValid(token);
+        return jwtHelper.isTokenValid(token.get("token"));
+
     }
 
 }

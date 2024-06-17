@@ -1,5 +1,6 @@
 package com.fooddelivery.rest.authorizationservice.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,14 +37,17 @@ public class UserService {
             throw new ApiException("One user is already registered with mobile no: " + user.getMobileNo());
         }
 
+        List<Address> addressList = new ArrayList<>();
+
+        user.setAddress(addressList);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User newUser = userRepository.save(user);
 
-        if (newUser != null) {
+        // if (newUser != null) {
 
-            restClient.post().uri("/cart/create/{userId}", newUser.getId()).retrieve();
-        }
+        //     restClient.post().uri("/cart/create/{userId}", newUser.getId()).retrieve();
+        // }
 
         return newUser;
     }
@@ -52,6 +56,36 @@ public class UserService {
 
         Optional<User> user = userRepository.findById(id);
         return user;
+    }
+
+    public User updateUser(String userId,User user)
+    {
+        User newUser = getUserById(userId).get();
+
+        if(newUser.getEmailId().equals(user.getEmailId()))
+        {
+            newUser.setFirstName(user.getFirstName());
+            newUser.setLastName(user.getLastName());
+            newUser.setEmailId(user.getEmailId());
+            newUser.setMobileNo(user.getMobileNo());
+
+            return  userRepository.save(newUser);
+
+        }
+        else{
+
+            if(userRepository.findByEmailId(user.getEmailId()) == null)
+            {
+                newUser.setFirstName(user.getFirstName());
+                newUser.setLastName(user.getLastName());
+                newUser.setEmailId(user.getEmailId());
+                newUser.setMobileNo(user.getMobileNo());
+
+                return  userRepository.save(newUser);
+            }
+        }
+        throw new ApiException("One user is alrady registed with this email id, please try another");
+        
     }
 
     // set user address
@@ -80,6 +114,22 @@ public class UserService {
         }
 
         throw new ResourceNotFoundException("Address not found with id: " + addressId);
+    }
+
+    public User deleteaddress(String userId, String addressId) {
+
+        User user = getUserById(userId).get();
+
+        List<Address> address = new ArrayList<>();
+
+        for (Address val : user.getAddress()) {
+
+            if (!val.getId().equals(addressId)) {
+                address.add(val);
+            }
+        }
+        user.setAddress(address);
+        return userRepository.save(user);
     }
 
 }

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,10 +28,9 @@ import com.fooddelivery.rest.restaurantsservice.Model.FoodItemVariant;
 import com.fooddelivery.rest.restaurantsservice.Model.FoodItems;
 import com.fooddelivery.rest.restaurantsservice.Payloads.ItemResponse;
 import com.fooddelivery.rest.restaurantsservice.Repository.FoodItemRepository;
+import com.google.common.base.CaseFormat;
 
-import org.springframework.core.io.Resource;
 import org.apache.commons.io.IOUtils;
-
 
 @Service
 public class FoodItemService {
@@ -47,31 +46,31 @@ public class FoodItemService {
 
     public List<ItemResponse> getAllItems() throws IOException {
 
-        Type listType = new TypeToken<List<ItemResponse>>(){}.getType();
+        Type listType = new TypeToken<List<ItemResponse>>() {
+        }.getType();
 
         List<FoodItems> newItems = foodItemRepository.findAll();
 
         List<ItemResponse> itemResponses = modelMapper.map(foodItemRepository.findAll(), listType);
 
+        // image conversion
 
-    //image conversion
+        Iterator<FoodItems> i1 = newItems.iterator();
+        Iterator<ItemResponse> i2 = itemResponses.iterator();
 
-    Iterator<FoodItems> i1 = newItems.iterator();
-    Iterator<ItemResponse> i2 = itemResponses.iterator();
+        while (i1.hasNext() && i2.hasNext()) {
+            String fullPath = path + File.separator + i1.next().getImage().getImage();
 
-    while(i1.hasNext() && i2.hasNext())
-    {
-        String fullPath = path+File.separator+i1.next().getImage().getImage();
+            // Resource resource = new ClassPathResource(fullPath);
+            InputStream resource = new FileInputStream(fullPath);
+            byte[] imageBytes = IOUtils.toByteArray(resource);
+            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
-        // Resource resource = new ClassPathResource(fullPath);
-        InputStream resource = new FileInputStream(fullPath);
-        byte[] imageBytes = IOUtils.toByteArray(resource);
-        String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+            i2.next().setImage(imageDataBase64);
+        }
 
-        i2.next().setImage(imageDataBase64);
-    }
+        Collections.reverse(itemResponses);
 
-    
         return itemResponses;
     }
 
@@ -84,33 +83,33 @@ public class FoodItemService {
     }
 
     public FoodItems saveItems(FoodItems items, MultipartFile image) throws IOException {
-        
+
         List<FoodItemVariant> variant = items.getVariant();
 
-         // get file name
-         String originalFileName = image.getOriginalFilename();
+        // get file name
+        String originalFileName = image.getOriginalFilename();
 
-         // get extention
-         String extention = com.google.common.io.Files.getFileExtension(originalFileName);
- 
-         // Generate random filename
-         String fileName = RandomStringUtils.randomAlphanumeric(10) + "." + extention;
- 
-         // get path
-         String filePath = path + File.separator + fileName;
- 
-         // create folder
-         File file = new File(path);
- 
-         if (!file.exists()) {
-             file.mkdir();
-         }
- 
-         Files.copy(image.getInputStream(), Paths.get(filePath));
+        // get extention
+        String extention = com.google.common.io.Files.getFileExtension(originalFileName);
 
-         FoodImage foodImage = new FoodImage();
-         foodImage.setTitle(image.getOriginalFilename());
-         foodImage.setImage(fileName);
+        // Generate random filename
+        String fileName = RandomStringUtils.randomAlphanumeric(10) + "." + extention;
+
+        // get path
+        String filePath = path + File.separator + fileName;
+
+        // create folder
+        File file = new File(path);
+
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
+        Files.copy(image.getInputStream(), Paths.get(filePath));
+
+        FoodImage foodImage = new FoodImage();
+        foodImage.setTitle(image.getOriginalFilename());
+        foodImage.setImage(fileName);
 
         for (FoodItemVariant val : variant) {
 
@@ -119,6 +118,7 @@ public class FoodItemService {
 
         items.setVariant(variant);
         items.setImage(foodImage);
+        items.setName(items.getName().toLowerCase());
 
         return foodItemRepository.save(items);
     }
@@ -133,7 +133,7 @@ public class FoodItemService {
         foodItems.setAbout(items.getAbout());
         foodItems.setCategory(items.getCategory());
         foodItems.setDiscount(items.getDiscount());
-        foodItems.setName(items.getName());
+        foodItems.setName(items.getName().toLowerCase());
         foodItems.setReview(items.getReview());
         foodItems.setType(items.getType());
         foodItems.setVariant(items.getVariant());
@@ -149,12 +149,72 @@ public class FoodItemService {
         return foodItemRepository.save(foodItems);
     }
 
-    public InputStream getImage(String imageName) throws FileNotFoundException
-    {
-        String fullPath = path+File.separator+imageName;
+    public InputStream getImage(String imageName) throws FileNotFoundException {
+        String fullPath = path + File.separator + imageName;
 
         InputStream inputStream = new FileInputStream(fullPath);
 
         return inputStream;
+    }
+
+    public List<ItemResponse> getItemsByCategory(String category) throws IOException {
+
+        Type listType = new TypeToken<List<ItemResponse>>() {
+        }.getType();
+
+        List<FoodItems> newItems = foodItemRepository.findByCategory(category);
+
+        List<ItemResponse> itemResponses = modelMapper.map(foodItemRepository.findByCategory(category), listType);
+
+        // image conversion
+
+        Iterator<FoodItems> i1 = newItems.iterator();
+        Iterator<ItemResponse> i2 = itemResponses.iterator();
+
+        while (i1.hasNext() && i2.hasNext()) {
+            String fullPath = path + File.separator + i1.next().getImage().getImage();
+
+            // Resource resource = new ClassPathResource(fullPath);
+            InputStream resource = new FileInputStream(fullPath);
+            byte[] imageBytes = IOUtils.toByteArray(resource);
+            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+
+            i2.next().setImage(imageDataBase64);
+        }
+
+        Collections.reverse(itemResponses);
+
+        return itemResponses;
+    }
+
+    public List<ItemResponse> searchItems(String keyword) throws IOException {
+        Type listType = new TypeToken<List<ItemResponse>>() {
+        }.getType();
+
+        List<FoodItems> newItems = foodItemRepository.findByNameContaining(keyword);
+
+        System.out.println("newItems" + newItems);
+
+        List<ItemResponse> itemResponses = modelMapper.map(foodItemRepository.findByNameContaining(keyword), listType);
+
+        System.out.println("keyword" + keyword);
+        // image conversion
+
+        Iterator<FoodItems> i1 = newItems.iterator();
+        Iterator<ItemResponse> i2 = itemResponses.iterator();
+
+        while (i1.hasNext() && i2.hasNext()) {
+            String fullPath = path + File.separator + i1.next().getImage().getImage();
+
+            // Resource resource = new ClassPathResource(fullPath);
+            InputStream resource = new FileInputStream(fullPath);
+            byte[] imageBytes = IOUtils.toByteArray(resource);
+            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+
+            i2.next().setImage(imageDataBase64);
+        }
+
+        Collections.reverse(itemResponses);
+        return itemResponses;
     }
 }

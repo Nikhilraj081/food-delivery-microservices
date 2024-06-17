@@ -14,7 +14,10 @@ public class RouteValidator {
             "/auth-service/auth/register",
             "cart-service/cart/create/**",
             "/restaurants-service/items/all",
-            "/restaurants-service/items/image/**");
+            "/restaurants-service/items/image/**",
+            "/auth-service/auth/token",
+            "/restaurants-service/items/category/**",
+            "/restaurants-service/items/");
 
     public Predicate<ServerHttpRequest> isSecured = request -> openApiEndpoints
             .stream()
