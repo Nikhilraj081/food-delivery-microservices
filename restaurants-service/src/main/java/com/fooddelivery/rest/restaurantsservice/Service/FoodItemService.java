@@ -59,10 +59,16 @@ public class FoodItemService {
         Iterator<ItemResponse> i2 = itemResponses.iterator();
 
         while (i1.hasNext() && i2.hasNext()) {
-            String fullPath = path + File.separator + i1.next().getImage().getImage();
 
-            // Resource resource = new ClassPathResource(fullPath);
-            InputStream resource = new FileInputStream(fullPath);
+            String fullPath = Paths.get(path,i1.next().getImage().getImage()).toString();
+
+             // Check if the file exists
+             File file = new File(fullPath);
+             if (!file.exists()) {
+                 throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
+             }
+
+            InputStream resource = new FileInputStream(file);
             byte[] imageBytes = IOUtils.toByteArray(resource);
             String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
@@ -172,10 +178,15 @@ public class FoodItemService {
         Iterator<ItemResponse> i2 = itemResponses.iterator();
 
         while (i1.hasNext() && i2.hasNext()) {
-            String fullPath = path + File.separator + i1.next().getImage().getImage();
+             String fullPath = Paths.get(path,i1.next().getImage().getImage()).toString();
 
-            // Resource resource = new ClassPathResource(fullPath);
-            InputStream resource = new FileInputStream(fullPath);
+             // Check if the file exists
+             File file = new File(fullPath);
+             if (!file.exists()) {
+                 throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
+             }
+
+            InputStream resource = new FileInputStream(file);
             byte[] imageBytes = IOUtils.toByteArray(resource);
             String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
@@ -204,10 +215,15 @@ public class FoodItemService {
         Iterator<ItemResponse> i2 = itemResponses.iterator();
 
         while (i1.hasNext() && i2.hasNext()) {
-            String fullPath = path + File.separator + i1.next().getImage().getImage();
+            String fullPath = Paths.get(path,i1.next().getImage().getImage()).toString();
 
-            // Resource resource = new ClassPathResource(fullPath);
-            InputStream resource = new FileInputStream(fullPath);
+            // Check if the file exists
+            File file = new File(fullPath);
+            if (!file.exists()) {
+                throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
+            }
+
+           InputStream resource = new FileInputStream(file);
             byte[] imageBytes = IOUtils.toByteArray(resource);
             String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
 
