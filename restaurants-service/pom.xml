@@ -92,5 +92,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>registry-service-v1</finalName>
 	</build>
 </project>
