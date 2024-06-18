@@ -1,6 +1,6 @@
 
 # Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:17-jdk-alpine
+FROM openjdk:17-jdk-slim
 
 # Install necessary packages
 RUN apt-get update && \
