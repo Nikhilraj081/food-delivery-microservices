@@ -94,7 +94,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>api-gateway-v2</finalName>
+		<finalName>api-gateway-v3</finalName>
 	</build>
 
 </project>

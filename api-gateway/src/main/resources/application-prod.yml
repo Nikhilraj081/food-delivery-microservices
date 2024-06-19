@@ -1,5 +1,7 @@
 
 eureka:
-   client:
-      serviceUrl:
-         defaultZone: http://ec2-3-108-218-205.ap-south-1.compute.amazonaws.com:8761/eureka/
+  client:
+    serviceUrl:
+      defaultZone: http://13.201.97.186:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
