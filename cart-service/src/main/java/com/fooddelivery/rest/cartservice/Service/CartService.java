@@ -88,7 +88,7 @@ public class CartService {
 
         CartItem cartItem = new CartItem();
 
-        FoodItems foodItems = restClient.get().uri("/items/id/{productId}", productId)
+        FoodItems foodItems = restClient.get().uri("restaurants-service/items/id/{productId}", productId)
                 .header("Authorization", token)
                 .retrieve().body(FoodItems.class);
 

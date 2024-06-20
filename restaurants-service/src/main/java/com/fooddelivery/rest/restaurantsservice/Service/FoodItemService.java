@@ -19,9 +19,11 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fooddelivery.rest.restaurantsservice.Config.Constant;
 import com.fooddelivery.rest.restaurantsservice.Exception.ResourceNotFoundException;
 import com.fooddelivery.rest.restaurantsservice.Model.FoodImage;
 import com.fooddelivery.rest.restaurantsservice.Model.FoodItemVariant;
@@ -29,6 +31,9 @@ import com.fooddelivery.rest.restaurantsservice.Model.FoodItems;
 import com.fooddelivery.rest.restaurantsservice.Payloads.ItemResponse;
 import com.fooddelivery.rest.restaurantsservice.Repository.FoodItemRepository;
 import com.google.common.base.CaseFormat;
+
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 
 import org.apache.commons.io.IOUtils;
 
@@ -40,6 +45,12 @@ public class FoodItemService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private S3Service s3Service;
+
+    @Autowired
+    private S3Client s3Client;
 
     @Value("${image.path}")
     private String path;
@@ -60,19 +71,37 @@ public class FoodItemService {
 
         while (i1.hasNext() && i2.hasNext()) {
 
-            String fullPath = Paths.get(path,i1.next().getImage().getImage()).toString();
+            //to get image from s3 bucket
+            String imageName = i1.next().getImage().getImage();
+            String key = Paths.get("Images", imageName).toString();
 
-             // Check if the file exists
-             File file = new File(fullPath);
-             if (!file.exists()) {
-                 throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
-             }
+             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(Constant.BUCKET_NAME)
+                    .key(key)
+                    .build();
 
-            InputStream resource = new FileInputStream(file);
-            byte[] imageBytes = IOUtils.toByteArray(resource);
-            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+            try (InputStream resource = s3Client.getObject(getObjectRequest)) {
+                byte[] imageBytes = resource.readAllBytes();
+                String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+                i2.next().setImage(imageDataBase64);
+            } catch (Exception e) {
+                throw new IOException("Failed to fetch the image from S3: " + e.getMessage(), e);
+            }
 
-            i2.next().setImage(imageDataBase64);
+
+            // String fullPath = Paths.get(path,i1.next().getImage().getImage()).toString();
+
+            //  // Check if the file exists
+            //  File file = new File(fullPath);
+            //  if (!file.exists()) {
+            //      throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
+            //  }
+
+            // InputStream resource = new FileInputStream(file);
+            // byte[] imageBytes = IOUtils.toByteArray(resource);
+            // String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+
+            // i2.next().setImage(imageDataBase64);
         }
 
         Collections.reverse(itemResponses);
@@ -92,7 +121,28 @@ public class FoodItemService {
 
         List<FoodItemVariant> variant = items.getVariant();
 
-        // get file name
+        // // get file name
+        // String originalFileName = image.getOriginalFilename();
+
+        // // get extention
+        // String extention = com.google.common.io.Files.getFileExtension(originalFileName);
+
+        // // Generate random filename
+        // String fileName = RandomStringUtils.randomAlphanumeric(10) + "." + extention;
+
+        // // get path
+        // String filePath = path + File.separator + fileName;
+
+        // // create folder
+        // File file = new File(path);
+
+        // if (!file.exists()) {
+        //     file.mkdir();
+        // }
+
+        // Files.copy(image.getInputStream(), Paths.get(filePath));
+
+         // get file name
         String originalFileName = image.getOriginalFilename();
 
         // get extention
@@ -101,18 +151,13 @@ public class FoodItemService {
         // Generate random filename
         String fileName = RandomStringUtils.randomAlphanumeric(10) + "." + extention;
 
-        // get path
-        String filePath = path + File.separator + fileName;
+        //to upload image in s3 bucket
 
-        // create folder
-        File file = new File(path);
-
-        if (!file.exists()) {
-            file.mkdir();
+         try {
+            s3Service.uploadImage(image, fileName);
+        } catch (IOException e) {
         }
-
-        Files.copy(image.getInputStream(), Paths.get(filePath));
-
+        
         FoodImage foodImage = new FoodImage();
         foodImage.setTitle(image.getOriginalFilename());
         foodImage.setImage(fileName);
@@ -178,19 +223,22 @@ public class FoodItemService {
         Iterator<ItemResponse> i2 = itemResponses.iterator();
 
         while (i1.hasNext() && i2.hasNext()) {
-             String fullPath = Paths.get(path,i1.next().getImage().getImage()).toString();
+              //to get image from s3 bucket
+            String imageName = i1.next().getImage().getImage();
+            String key = Paths.get("Images", imageName).toString();
 
-             // Check if the file exists
-             File file = new File(fullPath);
-             if (!file.exists()) {
-                 throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
-             }
+             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(Constant.BUCKET_NAME)
+                    .key(key)
+                    .build();
 
-            InputStream resource = new FileInputStream(file);
-            byte[] imageBytes = IOUtils.toByteArray(resource);
-            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
-
-            i2.next().setImage(imageDataBase64);
+            try (InputStream resource = s3Client.getObject(getObjectRequest)) {
+                byte[] imageBytes = resource.readAllBytes();
+                String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+                i2.next().setImage(imageDataBase64);
+            } catch (Exception e) {
+                throw new IOException("Failed to fetch the image from S3: " + e.getMessage(), e);
+            }
         }
 
         Collections.reverse(itemResponses);
@@ -215,19 +263,22 @@ public class FoodItemService {
         Iterator<ItemResponse> i2 = itemResponses.iterator();
 
         while (i1.hasNext() && i2.hasNext()) {
-            String fullPath = Paths.get(path,i1.next().getImage().getImage()).toString();
-
-            // Check if the file exists
-            File file = new File(fullPath);
-            if (!file.exists()) {
-                throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
-            }
-
-           InputStream resource = new FileInputStream(file);
-            byte[] imageBytes = IOUtils.toByteArray(resource);
-            String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
-
-            i2.next().setImage(imageDataBase64);
+             //to get image from s3 bucket
+             String imageName = i1.next().getImage().getImage();
+             String key = Paths.get("Images", imageName).toString();
+ 
+              GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                     .bucket(Constant.BUCKET_NAME)
+                     .key(key)
+                     .build();
+ 
+             try (InputStream resource = s3Client.getObject(getObjectRequest)) {
+                 byte[] imageBytes = resource.readAllBytes();
+                 String imageDataBase64 = Base64.getEncoder().encodeToString(imageBytes);
+                 i2.next().setImage(imageDataBase64);
+             } catch (Exception e) {
+                 throw new IOException("Failed to fetch the image from S3: " + e.getMessage(), e);
+             }
         }
 
         Collections.reverse(itemResponses);

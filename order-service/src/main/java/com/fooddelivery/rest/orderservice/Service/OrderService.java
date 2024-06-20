@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -26,6 +27,8 @@ public class OrderService {
 
     @Autowired
     private RestClient restClient;
+
+   
 
     // crete order
     public Order createOrder(String userId, String addressId, String token, String orderId) {
