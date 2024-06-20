@@ -26,8 +26,8 @@ public class Order {
     private double deliveryFee;
     private double discount;
     private List<CartItem> items;
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
     private boolean active;
     private String paymentId;
     private String paymentStatus;

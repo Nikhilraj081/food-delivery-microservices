@@ -80,7 +80,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>order-service-v3</finalName>
+		<finalName>order-service-v4</finalName>
 	</build>
 
 </project>

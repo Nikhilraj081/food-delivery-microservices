@@ -10,13 +10,7 @@ import org.springframework.context.annotation.Bean;
 public class RestaurantsServiceApplication {
 
 	public static void main(String[] args) {
-
-		System.out.println("system id name "+System.getenv( "AWS_ACCESS_KEY_ID"));
-		System.out.println("system secret name "+System.getenv( "AWS_SECRET_ACCESS_KEY"));
 		SpringApplication.run(RestaurantsServiceApplication.class, args);
-
-		
-
 	}
 
 	@Bean

@@ -2,9 +2,14 @@ package com.fooddelivery.rest.orderservice.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +50,8 @@ public class OrderService {
         order.setUserId(userId);
         order.setAddress(address);
         order.setTotalPrice(cart.getTotalPrice());
-        order.setDate(LocalDate.now());
-        order.setTime(LocalTime.now());
+        order.setDate(indianTimeAndDate().get("date"));
+        order.setTime(indianTimeAndDate().get("time"));
         order.setDiscount(cart.getTotalDiscount());
         order.setDeliveryFee(cart.getDeliveryFee());
         order.setStatus(Constants.DEFAULT_DELIVERY_STATUS);
@@ -86,6 +91,31 @@ public class OrderService {
     public boolean deleteOrder(String orderId) {
         orderRepository.deleteById(orderId);
         return true;
+    }
+
+    public Map<String, String> indianTimeAndDate() {
+
+        Map<String, String> dateAndTime = new HashMap<String, String>();
+
+        // Define the time zone
+        ZoneId indianZoneId = ZoneId.of("Asia/Kolkata");
+
+        // Get the current date and time in the Indian time zone
+        ZonedDateTime indianTime = ZonedDateTime.now(indianZoneId);
+
+        // Format the date and time separately
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        // Extract date and time as separate strings
+        String date = indianTime.format(dateFormatter);
+        String time = indianTime.format(timeFormatter);
+
+        // Store date and time in the map
+        dateAndTime.put("date", date);
+        dateAndTime.put("time", time);
+
+       return  dateAndTime;
     }
 
 }
