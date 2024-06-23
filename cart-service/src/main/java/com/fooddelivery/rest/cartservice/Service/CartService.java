@@ -38,7 +38,6 @@ public class CartService {
         cart.setUserId(userId);
         cart.setCartitems(item);
 
-        System.out.println("cart created");
         return cartRepository.save(cart);
     }
 
@@ -58,28 +57,19 @@ public class CartService {
     public Cart addProductIntoCart(String userId, String productId, String quantity, String token)
             throws ResourceNotFoundException, ApiException {
 
-        System.out.println("enter to if addcart method");
         if (cartRepository.findCartByUserId(userId) == null) {
-            System.out.println("enter to if condition");
             createCart(userId);
         }
-
-        System.out.println("outside if");
 
         Cart cart = cartRepository.findCartByUserId(userId);
 
         List<CartItem> item = cart.getCartitems();
-
-       
 
         if (item != null) {
             for (CartItem cartItem : item) {
 
                 if (cartItem.getFoodItemId().equals(productId) && cartItem.getQuantity().equals(quantity)) {
 
-                    System.out.println("cart item id "+ cartItem.getFoodItemId());
-                    System.out.println("product id "+ productId);
-                    System.out.println("no of items "+ cartItem.getNumOfItem());
                     return updateCartItem(cartItem.getNumOfItem() + 1, userId, cartItem.getCartItemId());
                 }
 
@@ -126,7 +116,6 @@ public class CartService {
             createCart(userId);
         }
 
-        System.out.println("entered into update cart");
         Cart cart = getCartByUserId(userId);
 
         List<CartItem> cartItem = cart.getCartitems();
@@ -134,13 +123,9 @@ public class CartService {
         for (CartItem item : cartItem) {
 
             if (item.getCartItemId().equals(cartItemId)) {
-                System.out.println("updated cart under if method");
-                System.out.println(noOfItem);
                 item.setNumOfItem(noOfItem);
             }
         }
-
-        System.out.println("updated cart out of for loop");
 
         Cart newCart = cartRepository.save(cart);
         return setCartPrice(newCart);
@@ -200,7 +185,7 @@ public class CartService {
 
         for (CartItem item : cartItem) {
             totalPrice += item.getSpecialPrice() * item.getNumOfItem();
-            totalDiscount += item.getDiscount();
+            totalDiscount += item.getDiscount() * item.getNumOfItem();
         }
 
         if (totalPrice < 200) {

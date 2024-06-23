@@ -252,11 +252,9 @@ public class FoodItemService {
 
         List<FoodItems> newItems = foodItemRepository.findByNameContaining(keyword);
 
-        System.out.println("newItems" + newItems);
 
         List<ItemResponse> itemResponses = modelMapper.map(foodItemRepository.findByNameContaining(keyword), listType);
 
-        System.out.println("keyword" + keyword);
         // image conversion
 
         Iterator<FoodItems> i1 = newItems.iterator();

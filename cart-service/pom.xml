@@ -76,7 +76,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>cart-service-v3</finalName>
+		<finalName>cart-service-v4</finalName>
 	</build>
 
 </project>
