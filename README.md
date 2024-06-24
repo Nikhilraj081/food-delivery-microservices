@@ -1,29 +1,56 @@
+# Food Delivery Microservices
 
-# Food-Delivery-Microservices
+Welcome to the Food Delivery Microservices project, a scalable and efficient backend solution for a food delivery application. This project is developed using Spring Boot and MongoDB Atlas, following the microservices architecture to ensure modularity, flexibility, and ease of maintenance.
 
-The Food Delivery Microservices project aims to develop a scalable and efficient system for managing food delivery operations. Leveraging the microservices architecture with Spring Boot and MongoDB, the project ensures modularity, flexibility, and robustness in handling various aspects of the food delivery process.
+## Features
 
-**Auth-Service:** Handles user authentication, registration, profile management, and authorization.
+- **User Authentication**: Secure user registration and login.
+- **Restaurant Management**: CRUD operations for restaurant data.
+- **Order Management**: Handle order placement, updates, and tracking.
+- **Cart Management**: Manage user cart operations.
+- **Service Communication**: Efficient communication between microservices.
 
-**Cart-Service:** Users can add items, remove items, adjust the quantity of items, and view the contents of their cart at any time, including the total price.
+## Tech Stack
 
-**Restaurants-Service:** Manages foodItem, availability, and orders.
+### Backend
+- **Spring Boot**: Framework for building microservices.
+- **Spring Security**: For authentication and authorization.
+- **Spring Data MongoDB**: For data persistence.
+- **MongoDB Atlas**: Fully managed cloud database service.
 
-**Order-Service:** Facilitates order placement, tracking, and status updates.
+### Deployment
+- **AWS EC2**: Microservices are deployed on Amazon EC2 instances.
+- **Spring Cloud**: For microservices communication and configuration.
 
-## Requirements
-    java 17
-    maven 3.8.4
+## Microservices
 
-## Installation and Run
+1. **Auth Service**: Manages user authentication and authorization.
+2. **Restaurant Service**: Manages restaurant data.
+3. **Order Service**: Manages orders.
+4. **Cart Service**: Manages user carts.
 
-Clone this repository in your local system
+## Getting Started
+
+### Prerequisites
+- **Java** (JDK 17)
+- **Maven** (3.8.4): For building the project.
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Nikhilraj081/food-delivery-microservices.git
+   cd food-delivery-microservices
+  
+
+#### Build and Run each Microservice:
+Navigate to each microservice directory and run:
 
 ```bash
-  git clone https://github.com/Nikhilraj081/food-delivery-microservices.git
-```
-Open terminal and go to food-delivery-microservices folders and then go to below folder one by one:
-```bash
+mvn clean install
+mvn spring-boot:run
+
+
 /registry-service
 /api-gateway
 /authorization-service
@@ -31,11 +58,7 @@ Open terminal and go to food-delivery-microservices folders and then go to below
 /cart-service
 /order-service
 ```
-And run below command to start each service individually.
 
-```bash
-  mvn clean spring-boot:run
-```
 Once  all server is started paste below link into your browser to check status of services, if all service is UP then we are good to test endpoins.
 ```bash
   http://localhost:8761/
