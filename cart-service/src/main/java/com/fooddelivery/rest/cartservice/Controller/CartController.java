@@ -47,15 +47,15 @@ public class CartController {
     }
 
     @PutMapping("/update/cartItem/{itemId}/user/{userId}/{noOfItem}")
-    public ResponseEntity<?> updateCart(@PathVariable("itemId") String itemId, @PathVariable("userId") String userId, @PathVariable("noOfItem") int noOfItem) throws ApiException
-    {
+    public ResponseEntity<?> updateCart(@PathVariable("itemId") String itemId, @PathVariable("userId") String userId,
+            @PathVariable("noOfItem") int noOfItem) throws ApiException {
         Cart cart = cartService.updateCartItem(noOfItem, userId, itemId);
         return ResponseEntity.created(null).body(cart);
     }
 
-
     @DeleteMapping("/delete/userId/{userId}/itemId/{itemId}")
-    public ResponseEntity<?> removeCartItem(@PathVariable String userId, @PathVariable String itemId) throws ApiException {
+    public ResponseEntity<?> removeCartItem(@PathVariable String userId, @PathVariable String itemId)
+            throws ApiException {
         Cart cart = cartService.deleteCartItem(userId, itemId);
 
         return ResponseEntity.accepted().body(cart);

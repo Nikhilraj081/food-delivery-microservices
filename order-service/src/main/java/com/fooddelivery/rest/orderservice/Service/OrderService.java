@@ -1,19 +1,14 @@
 package com.fooddelivery.rest.orderservice.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -33,8 +28,6 @@ public class OrderService {
     @Autowired
     private RestClient restClient;
 
-   
-
     // crete order
     public Order createOrder(String userId, String addressId, String token, String orderId) {
         Cart cart = restClient.get().uri("/cart-service/cart/user/{userId}", userId).header("Authorization", token)
@@ -43,7 +36,7 @@ public class OrderService {
         ShippingAddress address = restClient.get()
                 .uri("/auth-service/user/{userId}/address/{addressId}", userId, addressId)
                 .header("Authorization", token).retrieve().body(ShippingAddress.class);
-        
+
         Order order = new Order();
         order.setId(orderId);
         order.setItems(cart.getCartitems());
@@ -56,7 +49,6 @@ public class OrderService {
         order.setDeliveryFee(cart.getDeliveryFee());
         order.setStatus(Constants.DEFAULT_DELIVERY_STATUS);
         order.setActive(Constants.DEFAULT_ACTIVE_STATUS);
-        
 
         Order newOrder = orderRepository.save(order);
         return newOrder;
@@ -98,14 +90,14 @@ public class OrderService {
         Map<String, String> dateAndTime = new HashMap<String, String>();
 
         // Define the time zone
-        ZoneId indianZoneId = ZoneId.of("Asia/Kolkata");
+        ZoneId indianZoneId = ZoneId.of(Constants.TIME_ZONE_CODE);
 
         // Get the current date and time in the Indian time zone
         ZonedDateTime indianTime = ZonedDateTime.now(indianZoneId);
 
         // Format the date and time separately
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT);
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(Constants.TIME_FORMAT);
 
         // Extract date and time as separate strings
         String date = indianTime.format(dateFormatter);
@@ -115,7 +107,7 @@ public class OrderService {
         dateAndTime.put("date", date);
         dateAndTime.put("time", time);
 
-       return  dateAndTime;
+        return dateAndTime;
     }
 
 }

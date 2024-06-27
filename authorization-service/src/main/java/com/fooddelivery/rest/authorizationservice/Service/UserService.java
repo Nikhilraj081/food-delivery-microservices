@@ -46,7 +46,7 @@ public class UserService {
 
         // if (newUser != null) {
 
-        //     restClient.post().uri("/cart/create/{userId}", newUser.getId()).retrieve();
+        // restClient.post().uri("/cart/create/{userId}", newUser.getId()).retrieve();
         // }
 
         return newUser;
@@ -58,34 +58,30 @@ public class UserService {
         return user;
     }
 
-    public User updateUser(String userId,User user)
-    {
+    public User updateUser(String userId, User user) {
         User newUser = getUserById(userId).get();
 
-        if(newUser.getEmailId().equals(user.getEmailId()))
-        {
+        if (newUser.getEmailId().equals(user.getEmailId())) {
             newUser.setFirstName(user.getFirstName());
             newUser.setLastName(user.getLastName());
             newUser.setEmailId(user.getEmailId());
             newUser.setMobileNo(user.getMobileNo());
 
-            return  userRepository.save(newUser);
+            return userRepository.save(newUser);
 
-        }
-        else{
+        } else {
 
-            if(userRepository.findByEmailId(user.getEmailId()) == null)
-            {
+            if (userRepository.findByEmailId(user.getEmailId()) == null) {
                 newUser.setFirstName(user.getFirstName());
                 newUser.setLastName(user.getLastName());
                 newUser.setEmailId(user.getEmailId());
                 newUser.setMobileNo(user.getMobileNo());
 
-                return  userRepository.save(newUser);
+                return userRepository.save(newUser);
             }
         }
         throw new ApiException("One user is alrady registed with this email id, please try another");
-        
+
     }
 
     // set user address

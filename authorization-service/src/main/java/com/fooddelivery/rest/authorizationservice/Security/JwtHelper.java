@@ -73,9 +73,8 @@ public class JwtHelper {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    //To validate token
-    public ApiResponse isTokenValid(String token)
-    {
+    // To validate token
+    public ApiResponse isTokenValid(String token) {
         ApiResponse response = new ApiResponse();
 
         response.setMessage("token is valid");

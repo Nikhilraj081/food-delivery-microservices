@@ -2,7 +2,6 @@ package com.fooddelivery.rest.cartservice.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ public class CartService {
         }
 
         Cart newCart = cartRepository.findCartByUserId(userId);
-       
+
         return newCart;
     }
 
@@ -171,14 +170,14 @@ public class CartService {
 
     // set cart price
     public Cart setCartPrice(Cart cart) {
-        Double totalPrice = 0.0;
-        Double totalDiscount = 0.0;
+        Double totalPrice = Constant.DEFAULT_DOUBLE_VALUE;
+        Double totalDiscount = Constant.DEFAULT_DOUBLE_VALUE;
 
         List<CartItem> cartItem = cart.getCartitems();
 
         if (cartItem == null) {
-            cart.setTotalDiscount(0.0);
-            cart.setTotalPrice(0.0);
+            cart.setTotalDiscount(Constant.DEFAULT_DOUBLE_VALUE);
+            cart.setTotalPrice(Constant.DEFAULT_DOUBLE_VALUE);
 
             return cartRepository.save(cart);
         }
@@ -188,7 +187,7 @@ public class CartService {
             totalDiscount += item.getDiscount() * item.getNumOfItem();
         }
 
-        if (totalPrice < 200) {
+        if (totalPrice < Constant.FREE_DELIVERY_LIMIT) {
             cart.setDeliveryFee(Constant.DELIVERY_FEE);
             totalPrice = totalPrice + Constant.DELIVERY_FEE;
         } else {

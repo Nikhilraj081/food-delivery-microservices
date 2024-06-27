@@ -1,7 +1,6 @@
 package com.fooddelivery.rest.orderservice.Controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,22 +34,20 @@ public class OrderController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getOrderByUserId(@PathVariable String userId) {
         List<Order> order = orderService.getOrderByUserId(userId);
-        System.out.println("get the order data");
         return ResponseEntity.ok().body(order);
     }
 
     @PutMapping("update_order/{orderId}/payment/{paymentId}/paymentStatus/{paymentStatus}/orderStatus/{orderStatus}")
-    public ResponseEntity<?> updateOrder(@PathVariable String orderId, @PathVariable String paymentId, @PathVariable String paymentStatus, @PathVariable String orderStatus)
-    {
-        
-       Order order = orderService.updateOrder(orderId,paymentId,paymentStatus,orderStatus);
+    public ResponseEntity<?> updateOrder(@PathVariable String orderId, @PathVariable String paymentId,
+            @PathVariable String paymentStatus, @PathVariable String orderStatus) {
 
-       return ResponseEntity.accepted().body(order);
+        Order order = orderService.updateOrder(orderId, paymentId, paymentStatus, orderStatus);
+
+        return ResponseEntity.accepted().body(order);
     }
 
     @DeleteMapping("/delete/{orderId}")
-    public boolean deleteOrder(@PathVariable("orderId") String orderId)
-    {
+    public boolean deleteOrder(@PathVariable("orderId") String orderId) {
         return orderService.deleteOrder(orderId);
     }
 

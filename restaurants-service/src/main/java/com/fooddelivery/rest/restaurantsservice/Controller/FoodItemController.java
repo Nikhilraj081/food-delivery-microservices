@@ -1,5 +1,10 @@
 package com.fooddelivery.rest.restaurantsservice.Controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +24,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fooddelivery.rest.restaurantsservice.Exception.ResourceNotFoundException;
 import com.fooddelivery.rest.restaurantsservice.Model.FoodItems;
-import com.fooddelivery.rest.restaurantsservice.Payloads.FoodItemsDto;
 import com.fooddelivery.rest.restaurantsservice.Payloads.ItemResponse;
 import com.fooddelivery.rest.restaurantsservice.Service.FoodItemService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/items")
@@ -58,7 +57,7 @@ public class FoodItemController {
 
     @GetMapping("/search/{keyword}")
     public ResponseEntity<?> searchItems(@PathVariable("keyword") String keyword) throws IOException {
-        
+
         List<ItemResponse> items = foodItemService.searchItems(keyword);
 
         return ResponseEntity.ok().body(items);
@@ -72,16 +71,17 @@ public class FoodItemController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveItems(@Valid @RequestParam("items") String items, @RequestParam("image") MultipartFile image) throws IOException {
+    public ResponseEntity<?> saveItems(@Valid @RequestParam("items") String items,
+            @RequestParam("image") MultipartFile image) throws IOException {
 
-         FoodItems foodItems = null;
+        FoodItems foodItems = null;
         try {
             foodItems = mapper.readValue(items, FoodItems.class);
         } catch (JsonMappingException e) {
-           
+
             e.printStackTrace();
         } catch (JsonProcessingException e) {
-           
+
             e.printStackTrace();
         }
 
@@ -99,11 +99,11 @@ public class FoodItemController {
     }
 
     @GetMapping("/image/{imageName}")
-    public HttpServletResponse getImage(@PathVariable("imageName") String imageName, HttpServletResponse response) throws IOException
-    {
+    public HttpServletResponse getImage(@PathVariable("imageName") String imageName, HttpServletResponse response)
+            throws IOException {
         InputStream resource = foodItemService.getImage(imageName);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        StreamUtils.copy(resource,response.getOutputStream());
+        StreamUtils.copy(resource, response.getOutputStream());
         return response;
     }
 

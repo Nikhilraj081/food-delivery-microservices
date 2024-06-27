@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 
-import com.fooddelivery.rest.restaurantsservice.Model.FoodImage;
 import com.fooddelivery.rest.restaurantsservice.Model.FoodItemVariant;
 import com.fooddelivery.rest.restaurantsservice.Model.FoodReview;
 
@@ -34,7 +33,7 @@ public class FoodItemsDto {
 
     private String about;
     private List<FoodItemVariant> variant;
-    private List<FoodReview> review; 
+    private List<FoodReview> review;
     private FoodImageDto image;
-    
+
 }
